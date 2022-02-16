@@ -1,0 +1,12 @@
+#include "constantes.h"
+#include "jeu.h"
+
+#define MAX_INPUT 100
+
+int main(int argc, char* argv[]){
+    /* création + initialisation du damier */
+    PDamier d=new_damier();
+    init_damier(d);
+    jeu(d);
+    return 0;
+}

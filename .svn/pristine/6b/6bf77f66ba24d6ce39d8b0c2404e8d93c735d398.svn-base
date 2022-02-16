@@ -1,0 +1,24 @@
+#ifndef JEU_H_
+#define JEU_H_
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "grille.h"
+#include "deplacement.h"
+#include "input.h"
+
+#define MAX_INPUT 100
+
+int plusDePieces(int tour, PDamier d);
+int victoire();
+int jeu(PDamier d);
+void finJeu(PDamier jeu,int couleur, int tour);
+int trouverCoup(PDamier jeu,int couleur);
+int bloque(int tour,PDamier d);
+int abandon(char* input, int tour);
+int checkPosition(PDamier courant,PListeDamier ld);
+
+//TODO:PListeDamier -->PILE linked list Last in first Out pour optimiser un peu le code de verification
+
+#endif

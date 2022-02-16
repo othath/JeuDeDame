@@ -1,0 +1,29 @@
+#include "constantes.h"
+char* joueur1 = NULL;
+char* joueur2 = NULL;
+
+void initjoueur()
+{
+joueur1 = malloc(sizeof(char));
+printf("Nom du joueur 1 :");
+scanf("%s", joueur1);
+
+joueur2 = malloc(sizeof(char));
+printf("Nom du joueur 2 :");
+scanf("%s", joueur2);
+}
+void joueur(){
+    char answer;
+    printf("\voulez-vous jouer contre une IA? taper Y or N: \n", answer);
+    scanf("%c", &answer);
+    if (answer == 'Y'){
+        printf("Vous allez affronter une IA");
+        scanf("%c", &answer);
+    } else {
+    printf("Vous allez joueur contre une personne \n");
+    initjoueur();
+    }
+
+    return 0;
+}
+

@@ -1,0 +1,20 @@
+#ifndef INPUT_H_
+#define INPUT_H_
+
+/* structure */
+struct Deplacement{
+    int li; // ligne initiale
+    int ci;
+    int lf; // ligne finale
+    int cf;
+};
+
+typedef struct Deplacement Deplacement;
+
+/* entêtes */
+int estLettre(int* i, char input[]);
+int estNombre(int* i, char input[]);
+int checkInput(char input[]);
+int* tableauDeplacement();
+
+#endif

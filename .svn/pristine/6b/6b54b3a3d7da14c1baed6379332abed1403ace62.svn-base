@@ -1,0 +1,141 @@
+#include "rafle.h"
+/*
+int** (*verif_prise_voisin(PDamier plateau, int t, int position[4]))[3]{
+	int y1 = position[0];
+	int x1 = position[1];
+	int* r = 0; 
+	int** voisin;
+	*voisin = (int*)malloc(sizeof(int)*4);
+	**voisin = (int**)malloc(sizeof(int)*3);
+	if(t == 0){
+		for(int i = -1; i<=1; i+=2){
+			for(int j = -1; j<=1; i+=2){
+				if(plateau->plateau[x1+i][y1+i] == DAME_NOIRE || plateau->plateau[x1+i][y1+i] == PION_NOIR && plateau->plateau[position[1]=2*i][position[0]+2*j] == VIDE){
+					voisin[*r][0] = x1 + i*2;
+					voisin[*r][1] = y1 + i*2;
+					voisin[*r][2] = *r;
+					*r = *r +1;
+				}
+				else{
+					voisin[*r][0] = 0;
+					voisin[*r][1] = 0;
+					voisin[*r][2] = *r;
+					*r = *r + 1;
+				}
+				return voisin;
+			}
+		}
+	}
+	if(t == 1){
+		for(int i = -1; i<=1; i+=2){
+			for(int j = -1; j<=1; i+=2){
+				if(plateau->plateau[x1+i][y1+i] == DAME_BLANCHE || plateau->plateau[x1+i][y1+i] == PION_BLANC && plateau->plateau[position[1]=2*i][position[0]+2*j] == VIDE){
+					voisin[*r][0] = x1 + i*2;
+					voisin[*r][1] = y1 + i*2;
+					voisin[*r][2] = *r;
+					*r = *r +1;
+				}
+				else{
+					voisin[*r][0] = 0;
+					voisin[*r][1] = 0;
+					voisin[*r][2] = *r;
+					*r = *r + 1;
+				}
+				return voisin;
+			}	
+		}
+	}
+}
+
+int rafle(PDamier plateau, int t, int position[4], int e){
+	int x1 = position[0];
+	int y1 = position[1];
+	if(t == 0){					//vérif du tour
+		int** prise_possible = (int**)verif_prise_voisin(plateau, t, position);	//on récupère le tableau des voisins
+		for(int i = 0; i<=3; i++){						
+			while(prise_possible[i][0] != 0 && prise_possible[i][1] != 0){	//si les coordonnées des points sont différentes de 0
+				e = e + 1;				//on ajoute 1 pour connaitre la longueur de la rafle
+				x1 = prise_possible[i][1];
+				y1 = prise_possible[i][0];
+				position[0] = x1;
+				position[1] = y1;
+				rafle(plateau, t, position, e);		//on fait appel a la fonction rafle
+			}
+			return e;
+		}
+	}
+	if(t == 1){
+		int** prise_possible = (int**)verif_prise_voisin(plateau, t, position);
+			for(int i = 0; i<=3; i++){
+				while(prise_possible[i][0] != 0 && prise_possible[i][1] != 0){
+					e = e + 1;
+					x1 = prise_possible[i][1];
+					y1 = prise_possible[i][0];
+					position[0] = x1;
+					position[1] = y1;
+					rafle(plateau, t, position, e);
+				}
+				return e;
+			}
+	}
+	else{
+		return -1;
+	}
+	return e;
+}
+/*
+
+noeud_pion *new_noeud_pion(int i, int j){
+	 création d'un nouveau noeud (pion) 
+	noeud_pion *n = (noeud_pion*)malloc(sizeof(noeud_pion));
+	n->i = i;
+	n->j = j;
+	n->pere = NULL;
+	n->hg = NULL;
+	n->hd = NULL;
+	n->bg = NULL;
+	n->bd = NULL;
+	return n;
+}
+
+arbre_pion *new_arbre_pion(int i, int j){
+	création d'un arbre (pion)
+	arbre_pion *a = (arbre_pion*)malloc(sizeof(arbre_pion));
+	noeud_pion *root = new_noeud_pion(i,j);
+	a->racine = root;
+	a->hauteur = 0;
+	return a;
+}
+*/
+//arbre_pion **creer_arbres_pions(PDamier d, int tour){
+	/* crée un tableau contenant tous les arbres (racine uniquement) de tous les pions pour le joueur tour */
+	/*arbre_pion* arbres[20]; // 20 car 20 pions au maximum
+
+	// pour les blancs
+	if(tour == 0){
+		int k = 0; // index pour insertion
+		for(int i=0; i<LIGNES; i++){
+			for(int j=0; j<COLONNES; j++){
+				if(d->plateau[i][j] == PION_BLANC){
+					arbre_pion *a = new_arbre_pion(i,j);
+					arbres[k] = a;
+					k++;
+				}
+			}
+		}
+	}
+	// pour les noirs
+	else if(tour == 1){
+		int k = 0; // index pour insertion
+		for(int i=0; i<LIGNES; i++){
+			for(int j=0; j<COLONNES; j++){
+				if(d->plateau[i][j] == PION_NOIR){
+					arbre_pion *a = new_arbre_pion(i,j);
+					arbres[k] = a;
+					k++;
+				}
+			}
+		}
+	}
+	return *arbres;
+}*/

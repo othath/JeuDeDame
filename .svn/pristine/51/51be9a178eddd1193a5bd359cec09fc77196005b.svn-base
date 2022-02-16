@@ -1,0 +1,8 @@
+#ifndef INPUT_H_
+#define INPUT_H_
+
+/* entêtes */
+int checkInput(char input[]);
+int *envoyerInput(char input[]);
+
+#endif

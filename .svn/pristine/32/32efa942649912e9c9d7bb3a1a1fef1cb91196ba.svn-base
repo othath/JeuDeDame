@@ -1,0 +1,260 @@
+#include "rafle.h"
+/*
+int** longueur(PDamier plateau, int t, int position[2], int* e, int** table){
+	int y1 = position[0];
+	int x1 = position[1];
+	for(int i = 0; i<=*e; i++){
+		if(table[*e][0] != x1 && table[*e][1] != y1){
+			if(t == 0){
+				if(plateau->plateau[x1-1][y1-1] == DAME_NOIRE || plateau->plateau[x1-1][y1-1] == PION_NOIR){
+					if(plateau->plateau[x1-2][y1-2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1-2;
+						y1 = y1-2;
+						for(int j = -1; j <= 1; j+=2){
+							for(int k = -1; j <= 1; j+=2){ 
+								position[0] = x1 + j;
+								position[1] = y1 + k;
+								longueur(plateau, t, position, &e, table);
+							}
+						}
+					}
+				}
+				if (plateau->plateau[x1+1][y1-1] == DAME_NOIRE || plateau->plateau[x1+1][y1-1] == PION_NOIR){
+					if (plateau->plateau[x1+2][y1-2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						
+						
+						
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1+2;
+						y1 = y1-2;
+						position[0] = x1;
+						position[1] = y1;
+						//prise virtuelle?
+						longueur(plateau, t, position, &e, table);
+					}
+				}
+				if(plateau->plateau[x1-1][y1+1] == DAME_NOIRE || plateau->plateau[x1-1][y1+1] == PION_NOIR){
+					if(plateau->plateau[x1-2][y1+2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1-2;
+						y1 = y1+2;
+						position[0] = x1;
+						position[1] = y1;
+						//prise virtuelle?
+						longueur(plateau, t, position, &e, table);
+					}
+				}
+				if(plateau->plateau[x1+1][y1+1] == DAME_NOIRE || plateau->plateau[x1+1][y1+1] == PION_NOIR){
+					if(plateau->plateau[x1+2][y1+2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1+2;
+						y1 = y1+2;
+						position[0] = x1;
+						position[1] = y1;
+						//prise virtuelle?
+						longueur(plateau, t, position, &e, table);
+					}
+				}
+				else{
+					return table;
+				}
+			}
+			if(t==1){
+				if(plateau->plateau[x1-1][y1-1] == DAME_BLANCHE || plateau->plateau[x1-1][y1-1] == PION_BLANC){
+					if(plateau->plateau[x1-2][y1-2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1-2;
+						y1 = y1-2;
+						position[0] = x1;
+						position[1] = y1;
+						//prise virtuelle
+						longueur(plateau, t, position, &e, table);
+					}
+				}
+				if(plateau->plateau[x1+1][y1-1] == DAME_BLANCHE || plateau->plateau[x1+1][y1-1] == PION_BLANC){
+					if(plateau->plateau[x1+2][y1-2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1+2;
+						y1 = y1-2;
+						position[0] = x1;
+						position[1] = y1;
+						//prise virtuelle?
+						longueur(plateau, t, position, &e, table);
+					}
+				}
+				if(plateau->plateau[x1-1][y1+1] == DAME_BLANCHE || plateau->plateau[x1-1][y1+1] == PION_BLANC){
+					if(plateau->plateau[x1-2][y1+2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1-2;
+						y1 = y1+2;
+						position[0] = x1;
+						position[1] = y1;
+						//prise virtuelle?
+						longueur(plateau, t, position, &e, table);
+					}
+				}
+				if(plateau->plateau[x1+1][y1+1] == DAME_BLANCHE || plateau->plateau[x1+1][y1+1] == PION_BLANC){
+					if(plateau->plateau[x1+2][y1+2] == VIDE){
+						*e = *e + 1;
+						table[*e] = malloc(sizeof(int)*4);
+						table[*e][0] = x1;
+						table[*e][1] = y1;
+						table[*e][2] = *e;
+						table[*e][3] = noeud(position, plateau, t);
+						x1 = x1+2;
+						y1 = y1+2;
+						position[0] = x1;
+						position[1] = y1;
+						//prise virtuelle?
+						longueur(plateau, t, position, &e, table);
+					}
+				}
+				else{
+					return table;
+				}
+			}
+			else{
+				printf("ERREUR: rafle/longueur;  tour n'étant pas =1 ou =0\n");
+				printf("WTF?! C'est le tour à qui?\n");
+			}
+		}
+		else{
+			printf("ERREUR: rafle/longueur; les points de destination existe déjà dans le tableau\n");
+		}
+	}
+	printf("ERREUR: rafle/longueur; entrée dans la fonction d'analyse tableau\n");
+}
+
+
+int noeud(int position[2], PDamier d, int tour){
+    int n=-1;
+    for (int i=-1; i<=1; i+=2){
+        for (int j=-1; j<=1; j+=2){
+            if((tour==0 && (d->plateau[position[1]+i][position[0]+j]==DAME_NOIRE || d->plateau[position[1]][position[0]]==PION_NOIR) && d->plateau[position[1]+2*i][position[0]+2*j]==VIDE)||(tour==1 && (d->plateau[position[1]+i][position[0]+j]==DAME_BLANCHE || d->plateau[position[1]][position[0]]==PION_BLANC) && d->plateau[position[1]+2*i][position[0]+2*j]==VIDE))
+            n++;
+        }
+    }
+    return n;
+}
+*/
+
+int** verif_prise_voisin(PDamier plateau, int t, int position[4]){
+	int y1 = position[0];
+	int x1 = position[1];
+	int* r = 0; 
+	int voisin[*r][3];
+	if(t == 0){
+		for(int i = -1; i<=1; i+=2){
+			for(int j = -1; j<=1; i+=2){
+				if(plateau->plateau[x1+i][y1+i] == DAME_NOIRE || plateau->plateau[x1+i][y1+i] == PION_NOIR && plateau->plateau[position[1]=2*i][position[0]+2*j] == VIDE){
+					voisin[*r][0] = x1 + i*2;
+					voisin[*r][1] = y1 + i*2;
+					voisin[*r][2] = *r;
+					*r = *r +1;
+				}
+				else{
+					voisin[*r][0] = 0;
+					voisin[*r][1] = 0;
+					voisin[*r][2] = 0;
+					*r = *r + 1;
+				}
+			}
+		}
+		return voisin;
+	}
+	if(t == 1){
+		for(int i = -1; i<=1; i+=2){
+			for(int j = -1; j<=1; i+=2){
+				if(plateau->plateau[x1+i][y1+i] == DAME_BLANCHE || plateau->plateau[x1+i][y1+i] == PION_BLANC && plateau->plateau[position[1]=2*i][position[0]+2*j] == VIDE){
+					voisin[*r][0] = x1 + i*2;
+					voisin[*r][1] = y1 + i*2;
+					voisin[*r][2] = *r;
+					*r = *r +1;
+				}
+				else{
+					voisin[*r][0] = 0;
+					voisin[*r][1] = 0;
+					voisin[*r][2] = 0;
+					*r = *r + 1;
+				}
+			}
+		}
+		return voisin;
+	}
+	else{
+		return -1;
+	}
+}
+
+int rafle(PDamier plateau, int t, int position[4], int e){
+	int x1 = position[0];
+	int y1 = position[1];
+	if(t == 0){					//vérif du tour
+		int** prise_possible = verif_prise_voisin(plateau, t, position);	//on récupère le tableau des voisins
+		for(int i = 0; i<=3; i++){						
+			while(prise_possible[i][0] != 0 && prise_possible[i][1] != 0){	//si les coordonnées des points sont différentes de 0
+				e = e + 1;				//on ajoute 1 pour connaitre la longueur de la rafle
+				x1 = prise_possible[i][1];
+				y1 = prise_possible[i][0];
+				position[0] = x1;
+				position[1] = y1;
+				rafle(plateau, t, position, e);		//on fait appel a la fonction rafle
+				return e;
+			}
+		}
+	}
+	if(t == 1){
+		int** prise_possible = verif_prise_voisin(plateau, t, position);
+			for(int i = 0; i<=3; i++){
+				while(prise_possible[i][0] != 0 && prise_possible[i][1] != 0){
+					e = e + 1;
+					x1 = prise_possible[i][1];
+					y1 = prise_possible[i][0];
+					position[0] = x1;
+					position[1] = y1;
+					rafle(plateau, t, position, e);
+					return e;
+				}
+			}
+	}
+	else{
+		return -1;
+	}
+	return e;
+}

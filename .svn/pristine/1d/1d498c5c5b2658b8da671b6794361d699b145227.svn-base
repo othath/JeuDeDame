@@ -1,0 +1,24 @@
+/**
+* \file deplacement_ia.h
+* \brief 
+* \author thomas.lucenac@uha.fr
+* \version 1
+*
+*/
+
+#ifndef DEPALACEMENT_IA_H_
+#define DEPALACEMENT_IA_H_
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "grille.h"
+
+/**
+* \fn nombrePrisesPourUnPion(PDamier d, int tour, int i, int j)
+* \brief 
+* \param 
+*/
+int* nombrePrisesPourUnPion(PDamier d, int tour, int i, int j);
+
+#endif

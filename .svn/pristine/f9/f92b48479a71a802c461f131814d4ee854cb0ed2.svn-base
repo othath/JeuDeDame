@@ -1,0 +1,51 @@
+#ifndef RAFLE_H_
+#define RAFLE_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "grille.h"
+#include "deplacement.h"
+
+typedef struct cel* liste;
+struct cel{
+    int c[2];
+    liste next;
+};
+typedef struct cel cel;
+
+/*
+ * Implémentation d'un arbre 4-aire pour la recherche de la rafle maximale (uniquement pion)
+ * Chaque noeud a 4 fils : 
+ *      - hg : diagonale haut gauche
+ *      - bg : diagonale bas gauche
+ *      - hd
+ *      - bd
+ *      
+ *  hg,bg,..... correspondent aux coordonnés de la case ou on est supposés attérir après une prise en diagonale haut gauche..
+ */
+
+struct NoeudRaflePion{
+    int i; // ligne
+    int j; // colonne
+    struct NoeudRaflePion* pere;
+    struct NoeudRaflePion* hg;
+    struct NoeudRaflePion* hd;
+    struct NoeudRaflePion* bg;
+    struct NoeudRaflePion* bd;
+};
+
+typedef struct NoeudRaflePion noeud_pion;
+
+struct ArbreRaflePion{
+    noeud_pion* racine;
+    int hauteur;
+};
+
+typedef struct ArbreRaflePion arbre_pion;
+
+
+//int rafle(PDamier plateau, int t, int position[4], int e);
+noeud_pion *new_noeud_pion(int i, int j);
+arbre_pion *new_arbre_pion(int i, int j);
+//arbre_pion **creer_arbres_pions(PDamier d, int tour);
+#endif // RAFLE_H_

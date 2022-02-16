@@ -1,0 +1,4 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int deplacement(Pplateau plateau, int movement[4]);

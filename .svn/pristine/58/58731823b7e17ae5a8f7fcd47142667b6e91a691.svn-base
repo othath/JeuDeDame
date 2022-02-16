@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define ligne  10
+#define colonne  10
+#define vide 0
+#define pion_blanc 1
+#define pion_noir 2
+#define dame_blanche 10
+#define dame_noire 20
+
+ struct plateau{
+          int label;
+};
+
+
+void initialisation();
+void affichage();
+void remplissage();

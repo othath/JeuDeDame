@@ -1,0 +1,6 @@
+#include <stdlib.h>
+#include "src/input.h"
+
+int main_test_input(int argc, char **argv){
+    return EXIT_SUCCESS;
+}

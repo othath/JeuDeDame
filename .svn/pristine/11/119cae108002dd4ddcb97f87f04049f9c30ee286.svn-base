@@ -1,0 +1,11 @@
+#include "dame.h"
+
+int main(int argc, char* argv[]){
+    /* initialisation du plateau + affichage */
+    initialisation();
+    remplissage();
+    affichage();
+
+    /* entrée utilisateur */
+    return 0;
+}

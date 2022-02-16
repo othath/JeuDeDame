@@ -1,0 +1,87 @@
+#include "deplacement_ia.h"
+
+/*
+int* testNbrPoints(PDamier d, int tour, int i, int j){*/
+    /* renvoie le nombre de prise pour un pion situé en i (ligne) et j (colonne) */
+
+    // création d'un tableau virtuel avec des bordures initialisées à -1
+    /*int cdv[LIGNES+2][COLONNES+2]; // cdv = copie damier virtuel
+    int* table = malloc(sizeof(int)*4);
+    for(int i=0;i<LIGNES+2;i++){
+        for(int j=0;j<COLONNES+2;j++){
+            if(i == 0) cdv[i][j] = -1;
+            else if(j == 0) cdv[i][j] = -1;
+            else if(i == LIGNES+1) cdv[i][j] = -1;
+            else if(j == COLONNES+1) cdv[i][j] = -1;
+            else{
+                cdv[i][j] = d->plateau[i-1][j-1];
+            }
+        }
+    }
+    
+    // on compte
+    int nb_prises = 0;
+*/
+    /* on compte, en faisant attention aux index,
+     * si dans le damier, on est à la position i,
+     * alors on est à la position i+1 dans le damier virtuel,
+     * pareil pour j,
+     * j(damier) ==> j+1(damier virtuel)
+     */
+
+  /*  if(tour == 0){ // tour du joueur blanc
+        if(cdv[i+1-1][j+1-1] == PION_NOIR || cdv[i+1-1][j+1-1] == DAME_NOIRE){ // diagonale haut gauche
+            if(cdv[i+1-2][j+1-2] == VIDE){ 
+                nb_prises++;
+                table[0] = 1;
+                }
+        }
+        if(cdv[i+1-1][j+1+1] == PION_NOIR || cdv[i+1-1][j+1+1] == DAME_NOIRE){ // diagonale haut droite
+            if(cdv[i+1-2][j+1+2] == VIDE){
+            nb_prises++;
+            table[1] = 1;
+            }
+        }
+        if(cdv[i+1+1][j+1-1] == PION_NOIR || cdv[i+1+1][j+1-1] == DAME_NOIRE){ // diagonale bas gauche
+            if(cdv[i+1+2][j+1-2] == VIDE) {
+            nb_prises++;
+            table[2] = 1;
+        }
+        if(cdv[i+1+1][j+1+1] == PION_NOIR || cdv[i+1+1][j+1+1] == DAME_NOIRE){ // diagonale bas droite
+            if(cdv[i+1+2][j+1+2] == VIDE){
+            nb_prises++;
+            table[3] = 1;
+            }
+        }
+    }
+    if(tour == 1){ // tour du joueur noir
+        if(cdv[i+1-1][j+1-1] == PION_BLANC || cdv[i+1-1][j+1-1] == DAME_BLANCHE){ // diagonale haut gauche
+            if(cdv[i+1-2][j+1-2] == VIDE){
+                nb_prises++;
+                table[0] = 1;
+            }
+        }
+        if(cdv[i+1-1][j+1+1] == PION_BLANC || cdv[i+1-1][j+1+1] == DAME_BLANCHE){ // diagonale haut droite
+            if(cdv[i+1-2][j+1+2] == VIDE){
+                nb_prises++;
+                table[1] = 1;
+            }
+        }
+        if(cdv[i+1+1][j+1-1] == PION_BLANC || cdv[i+1+1][j+1-1] == DAME_BLANCHE){ // diagonale bas gauche
+            if(cdv[i+1+2][j+1-2] == VIDE){
+                nb_prises++;
+                table[2] = 1;
+            }
+        }
+        if(cdv[i+1+1][j+1+1] == PION_BLANC || cdv[i+1+1][j+1+1] == DAME_BLANCHE){ // diagonale bas droite
+            if(cdv[i+1+2][j+1+2] == VIDE){
+                nb_prises++;
+            table[3] = 1;
+            }
+        }
+    }
+    else{ printf("Deplacement_ia.c, Erreur: Tour =/= à 1 ou 0 fin de fonction \n");}
+    return table;
+}
+return table;
+}*/

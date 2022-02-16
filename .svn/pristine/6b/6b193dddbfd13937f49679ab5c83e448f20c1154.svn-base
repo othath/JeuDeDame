@@ -1,0 +1,45 @@
+#include "ia.h"
+
+PPiece new_piece(int c, int type, int pos[]){
+    PPiece p = (PPiece)malloc(sizeof(struct Piece));
+    p->couleur = c;
+    p->type = type;
+    p->position[0] = pos[0];
+    p->position[1] = pos[1];
+    return p;
+}
+
+PPiece* pieces_blanches(PDamier d){
+    /* renvoie un tableau de pièces blanches */
+
+    // tableau à renvoyer
+    PPiece pieces[20];
+
+    // insertion dans pieces
+    int k = 0;
+
+    for(int i=0;i<LIGNES;i++){
+        for(int j=0;j<COLONNES;j++){
+            int pos[] = {i,j};
+            if(d->plateau[i][j] == PION_BLANC){
+                PPiece p = new_piece(BLANC, PION, pos);
+                // TODO : getVoisins
+                pieces[k] = p;
+                k++;
+            }
+            else if(d->plateau[i][j] == DAME_BLANCHE){
+                PPiece p = new_piece(BLANC, PION, pos);
+                // TODO : getVoisins
+                pieces[k] = p;
+                k++;
+            }
+        }
+    }
+}
+int mv_aleatoire(PDamier d,int tour){
+      int* dep = trouverCoup(d,tour);
+      if(dep!=NULL){ //on a trouve un coup 
+         if(mv_normal(dep, d, tour)==0) return 0; //Dep des pions
+      }
+ return -1; 
+}

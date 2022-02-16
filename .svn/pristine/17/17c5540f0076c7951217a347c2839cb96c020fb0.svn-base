@@ -1,0 +1,10 @@
+#ifndef JEU_H_
+#define JEU_H_
+
+#include "constantes.h"
+
+int plusDePieces(int tour, PDamier d);
+int victoire();
+int jeu(PDamier d);
+
+#endif

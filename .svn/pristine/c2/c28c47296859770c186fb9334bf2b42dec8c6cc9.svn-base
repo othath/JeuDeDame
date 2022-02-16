@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    printf("Hello world!\n");
+    printf("C'est Thomas :)\n");
+    printf("C'est Maxime :) \n");
+      printf("C'est Othmane :) \n");
+
+    return 0;
+}

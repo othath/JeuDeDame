@@ -1,0 +1,91 @@
+#include "constantes.h"
+
+int victoire(){
+    /* fonction temporaire , -1 si pas victoire*/
+    return -1;
+}
+
+int plusDePieces(int tour, PDamier d){
+    /* vérifie si le joueur dont c'est le tour n'a plus de pièces
+     * si plus de pièces RETURN 0
+     * si encore des pièces RETURN -1
+     */
+    if(tour%2 == 0){ // vérification sur le joueur blanc
+        if(d->nb_blancs == 0 && d->nb_dblanc == 0){
+            return 0;
+        }
+    }else{ // vérif sur le joueur noir
+        if(d->nb_noirs == 0 && d->nb_dnoir == 0){
+            return 0;
+        }
+    }
+    return -1;
+}
+
+int jeu(PDamier d){
+    int tour = 0;
+    int compteur = 0;
+    afficher_damier(d);
+    while(victoire() == -1){
+        //TODO : vérifier prise (automatique)
+        char input[MAX_INPUT];
+        printf("Tour : %i\n", tour%2);
+        printf("Syntaxe des coups : CASE_DE_DEPART CASE_ARRIVEE (ex : A1 B9)\n");
+        printf("Coup à jouer : ");
+        fgets(input,MAX_INPUT,stdin);
+        while(checkInput(input) == -1){ // tant que input pas OK
+            printf("Coup à jouer : ");
+            fgets(input,MAX_INPUT,stdin);
+        }
+        while(choisir_deplacement(d,envoyerInput(input),tour%2) == -1){
+            printf("Coup à jouer : ");
+            fgets(input,MAX_INPUT,stdin);
+            while(checkInput(input) == -1){ // tant que input pas OK
+                printf("Coup à jouer : ");
+                fgets(input,MAX_INPUT,stdin);
+            }
+        }
+        update_damier(d);
+        tour++;
+    }
+    return 0;
+}
+
+
+int trouverCoup(PDamier jeu,int couleur){
+     int i=0,nbPion=0,nbPionMax;
+     if(couleur==1) nbPionMax=jeu->nb_blancs+jeu->nb_dblanc; //nbPion dans le plateau
+     else if(couleur==2) nbPionMax=jeu->nb_noirs+jeu->nb_dnoir;
+     while(nbPion<nbPionMax){
+         for(int j=0;j<10;j++){
+          if(jeu->plateau[i][j] == couleur) {
+              if(test_dep(jeu,i,j,couleur) ==0){
+                  return 0;
+              }
+             nbPion++;
+              
+            }  
+          else if(jeu->plateau[i][j]== 2*couleur) {
+                    if(test_depDame(jeu,i,j) ==1){
+                  return 0;
+              }
+               nbPion++;               
+                   }
+          i++;
+         }
+}
+   return -1;
+        
+}
+
+
+void finJeu(PDamier jeu,int couleur, int tour){
+    if(plusDePieces(tour,jeu)==0) printf("FIN DE PARTIE ,PLUS DE PIECES :(\n");
+    //TODO : implementer trouver un coup
+    if(trouverCoup(jeu,couleur)==-1) {
+       printf("FIN DE PARTIE :(\n");
+       if(couleur==1) printf("Aucun deplacement possible pour les noirs\n");
+       else if (couleur==0) printf("aucun deplacement possible pour les blancs\n"); 
+ }
+}
+

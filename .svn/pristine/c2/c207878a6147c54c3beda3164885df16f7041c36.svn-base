@@ -1,0 +1,11 @@
+#ifndef DEPLACEMENT
+#define DEPLACEMENT
+
+#include "grille.h"
+
+int mv_normal(int code[4],PDamier damier, int tour);
+void dame(PDamier plateau);
+int dep(PDamier jeu,int ligne,int cologne,int couleur);
+int depDame();
+
+#endif // DEPLACEMENT

@@ -1,0 +1,129 @@
+#include "rafle.h"
+
+int rafle(PDamier plateau, int t, int position[2], liste* liste_rafle, int* n){
+    int prise_case=0;
+    int max_prise=0;
+    int nb_chemin=0;
+    int e = 0;
+    int x1 = position[1];
+    int y1 = position[0];
+    int flag=0;
+    int v[4];
+    v[0] = plateau->plateau[x1-1][y1-1];
+    v[1] = plateau->plateau[x1+1][y1-1];
+    v[2] = plateau->plateau[x1-1][y1+1];
+    v[3] = plateau->plateau[x1+1][y1+1];
+    //variable initialisation de boucle
+    int prenables=0;
+    int t_prenables[4][2];
+    if(t==1){
+        if(v[0] == DAME_BLANCHE || v[0] == PION_BLANC){    //si la case autour de case de départ est d'un pion de couleur opposé
+            if(plateau->plateau[x1-2][y1-2]){    //et si la case d'après ce pion de couleur opposé est vide
+                t_prenables[prenables][0]=x1-2;
+                t_prenables[prenables][1]=y1-2;
+                prenables++;    //on incrémente la variable prenable de 1 indiquant le nombre de case que l'on peut prendre autour d'un même pion
+            }
+        }
+        if(v[1] == DAME_BLANCHE || v[1] == PION_BLANC){
+            if(plateau->plateau[x1+2][y1-2]){
+                t_prenables[prenables][0]=x1+2;
+                t_prenables[prenables][1]=y1-2;
+                prenables++;
+            }
+        }
+        if(v[2] == DAME_BLANCHE || v[2] == PION_BLANC){
+            if(plateau->plateau[x1-2][y1+2]){
+                t_prenables[prenables][0]=x1-2;
+                t_prenables[prenables][1]=y1+2;
+                prenables++;
+            }
+        }
+        if(v[3] == DAME_BLANCHE || v[3] == PION_BLANC){
+            if(plateau->plateau[x1+2][y1+2]){
+                t_prenables[prenables][0]=x1+2;
+                t_prenables[prenables][1]=y1+2;
+                prenables++;
+            }
+        }
+    }
+    if(t==0){    //les fonctions sont les mêmes dans l'ensembles
+        if(v[0] == DAME_NOIRE || v[0] == PION_NOIR){
+            if(plateau->plateau[x1-2][y1-2] == 0){
+                t_prenables[prenables][0]=x1-2;
+                t_prenables[prenables][1]=y1-2;
+                prenables++;
+            }
+        }
+        if(v[1] == DAME_NOIRE || v[1] == PION_NOIR){
+            if(plateau->plateau[x1+2][y1-2] == 0){
+                t_prenables[prenables][0]=x1+2;
+                t_prenables[prenables][1]=y1-2;
+                prenables++;
+            }
+        }
+        if(v[2] == DAME_NOIRE || v[2] == PION_NOIR){
+            if(plateau->plateau[x1-2][y1+2] == 0){
+                t_prenables[prenables][0]=x1-2;
+                t_prenables[prenables][1]=y1+2;
+                prenables++;
+            }
+        }
+        if(v[3] == DAME_NOIRE || v[3] == PION_NOIR){
+            if(plateau->plateau[x1+2][y1+2] == 0){
+                t_prenables[prenables][0]=x1+2;
+                t_prenables[prenables][1]=y1+2;
+                prenables++;
+            }
+        }
+    }
+    if (prenables!=0){
+        PDamier cdam=copieDamier(plateau);
+        flag++;
+        for (int i=0; i<prenables; i++){
+            e=1;
+            liste* r=(liste*) malloc(sizeof(liste));
+            r[0]=(liste) malloc(sizeof(cel));
+            int d[4]={y1,x1,t_prenables[i][1],t_prenables[i][0]};
+            prise(cdam, t, d);
+            max_prise=rafle(cdam,t,t_prenables[i],r,&e);
+            if (max_prise==nb_chemin && max_prise>0){
+                for (int t=0;t<e;t++){
+                    liste_rafle[prise_case]=(liste) malloc(sizeof(cel));
+                    liste_rafle[prise_case]->next=r[t];
+                    liste_rafle[prise_case]->c[0]=position[0];
+                    liste_rafle[prise_case]->c[1]=position[1];
+                    prise_case++;
+                }
+                prise_case--;
+                *n=*n+e;
+            }
+            if (max_prise==0 && nb_chemin==0){
+                r[0]->c[0]=t_prenables[i][0];
+                r[0]->c[1]=t_prenables[i][1];
+                r[0]->next=NULL;
+                liste_rafle[prise_case]=(liste) malloc(sizeof(cel));
+                liste_rafle[prise_case]->next=r[0];
+                liste_rafle[prise_case]->c[0]=position[0];
+                liste_rafle[prise_case]->c[1]=position[1];
+                prise_case++;
+                *n=prise_case;
+            }
+            if (max_prise>nb_chemin){
+                *n=e;
+                nb_chemin=max_prise;
+                for (int prise_case=0; prise_case<e; prise_case++){
+                    liste_rafle[prise_case]=(liste) malloc(sizeof(cel));
+                    liste_rafle[prise_case]->next=r[prise_case];
+                    liste_rafle[prise_case]->c[0]=position[0];
+                    liste_rafle[prise_case]->c[1]=position[1];
+                }
+            }
+        }
+    }
+    else{
+        for(int t=0; t<prise_case;t++){
+            liste_rafle[t]->next=NULL;
+        }
+    }
+    return flag+nb_chemin;
+}

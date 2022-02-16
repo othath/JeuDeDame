@@ -1,0 +1,30 @@
+#ifndef IA_H
+#define IA_H
+
+#include <stdlib.h>
+
+#include "grille.h"
+#include "const.h"
+#include "deplacement.h"
+#include "jeu.h"
+
+#define BLANC 100
+#define NOIR 200
+
+#define PION 1000
+#define DAME 2000
+
+struct Piece{
+    int couleur; // noir ou blanc
+    int type; // pion ou dame
+    int position[2]; // coordonnées sur le plateau
+    struct Piece* voisins[4];
+};
+
+typedef struct Piece* PPiece;
+
+PPiece new_piece(int c, int type, int pos[]);
+int aleatoire(PPiece p_b, PPiece p_n, PDamier d, int code[4], int tour);
+int mv_aleatoire(PDamier d,int tour);
+
+#endif // Intelligence Artificielle

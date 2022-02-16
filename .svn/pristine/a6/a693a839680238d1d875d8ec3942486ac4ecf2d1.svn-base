@@ -1,0 +1,77 @@
+/*
+ *
+ * Pour compiler :
+ *   se placer dans le dossier tests
+ *      (cd ../src; gcc -c *.c; mv *.o ../tests);gcc -c test_rafle.c; gcc *.o -o test_rafle
+ * Pour exécuter :
+ *   ./test_rafle
+ * 
+ */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "../src/grille.h"
+#include "../src/rafle.h"
+
+/* couleurs pour l'affichage */
+#define ROUGE "\e[0;31m"
+#define VERT "\e[0;32m"
+#define MAGENTA "\e[0;35m"
+#define res "\e[0m"
+
+void run_test(int (*f)(), int *runs, int*fails){
+    /* lancement des tests */
+    printf("%s===> Test numéro %02i : %s",MAGENTA,(*runs)+1,res);
+    if(!f()){
+        (*fails)++;
+        printf("%sFAILED%s\n",ROUGE,res);
+    }
+    else{
+        printf("%sOK%s\n",VERT,res);
+    }
+    (*runs)++;
+}
+
+int test_rafle_blanc(){
+    /* teste la rafle pour les blancs */
+
+    // on crée les données du problème
+    PDamier d = new_damier();
+    int tab[10][10] =  {{0,0,0,0,0,0,0,0,2,0},  //tableau de valeur de référence
+                        {0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,2,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,2,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0},
+                        {0,0,2,0,0,0,0,0,0,0},
+                        {0,1,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0}};
+    memcpy(d->plateau,tab,4*10*4*10);
+    int expected = 3;
+    int pos[2] = {1,7};
+    int actual = rafle(pos,d,0);
+
+    if(actual != expected){
+        fprintf(stderr,"\ttest_rafle_blanc, rafle : expecting %i while got %i\n",expected,actual);
+        return 0;
+    }
+    return 1;
+}
+
+int main_test_rafle(int argc, char **argv){
+    /* compteurs */
+    int runs = 0;
+    int failures = 0;
+
+    printf("TEST_RAFLE.C\n");
+
+    /* lancement des tests */
+    run_test(&test_rafle_blanc,&runs,&failures);
+
+    /* affichage des résultats */
+    printf("Nombre de tests lancés : %i\nNombre de tests passés : %i\n",runs,runs-failures);
+    return EXIT_SUCCESS;
+}

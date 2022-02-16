@@ -1,0 +1,44 @@
+/* bibliothèques */
+#include "constantes.h"
+
+int checkInput(char input[]){
+int checkInput(char input[]){
+    /*
+     * renvoie 0 si l'input est de la bonne forme,
+     * -1 sinon.
+     * forme attendue : A1 B2
+     * A1 case de départ B2 case d'arrivée
+     */
+    if((int)input[0]>=(int)'A' && (int)input[0]<=(int)'J'){
+        // 1er caractère valide (lettre)
+        if((int)input[1]>=(int)'0' && (int)input[1]<=(int)'9'){
+            // 2eme caractère valide (chiffre)
+            if(input[2]==' '){
+                // 3eme caractère valide (espace)
+                if((int)input[3]>=(int)'A' && (int)input[3]<=(int)'J'){
+                    // 4eme caractère valide (lettre)
+                    if((int)input[1]>=(int)'0' && (int)input[1]<=(int)'9'){
+                        // 5eme caractère valide (chiffre)
+                        return 0;
+                    }
+                    else{
+                        printf("     ^Erreur, chiffre entre 0 et 9 attendu !\n");
+                    }
+                }
+                else{
+                    printf("    ^Erreur, lettre entre A et J attendue !\n");
+                }
+            }
+            else{
+                printf("  ^Erreur, espace attendu !\n");
+            }
+        }
+        else{
+            printf(" ^Erreur, chiffre entre 0 et 9 attendu !\n");
+        }
+    }
+    else{
+        printf("^Erreur, lettre entre A et J attendue !\n");
+    }
+    return -1;
+}

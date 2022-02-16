@@ -1,0 +1,234 @@
+#include "constantes.h"
+
+int mv_normal(int code[4], PDamier damier, int tour){
+    switch (damier->plateau[code[0]][code[1]]){
+        case 0:
+            printf("ERREUR: case de départ vide!\n");
+            return -1;
+        case 1:
+            if (tour==1){
+                printf("ERREUR: Ce n'est pas votre pièce!\n");
+                return -1;
+            }
+            if (code[2]==code[0]+1 && (code[3]==code[1]-1 || code[3]==code[1]+1) && damier->plateau[code[2]][code[3]]==VIDE){
+                damier->plateau[code[0]][code[1]]=VIDE;
+                damier->plateau[code[2]][code[3]]=PION_BLANC;
+                return 0;
+            }
+            else {
+                printf("ERREUR: case d'arrivée non valide!\n");
+                return -1;
+            }
+        case 2:
+            if (tour==0){
+                printf("ERREUR: Ce n'est pas votre pièce!\n");
+                return -1;
+            }
+            if (code[2]==code[0]-1 && (code[3]==code[1]-1 || code[3]==code[1]+1) && damier->plateau[code[2]][code[3]]==VIDE){
+                damier->plateau[code[0]][code[1]]=VIDE;
+                damier->plateau[code[2]][code[3]]=PION_NOIR;
+                return 0;
+            }
+            else {
+                printf("ERREUR: case d'arrivée non valide!\n");
+                return -1;
+            }
+        default:
+            printf("ERREUR: Quoi?");
+            return -1;
+    }
+}
+
+void dame(PDamier plateau){
+    /* transforme un pion en Dame */
+	for(int i=0; i<COLONNES; i++){
+		if(plateau->plateau[0][i]==PION_NOIR){
+			plateau->plateau[0][i]=DAME_NOIRE;
+		}
+		if(plateau->plateau[9][i]==PION_BLANC){
+			plateau->plateau[9][i]=DAME_BLANCHE;
+		}
+	}
+}
+
+int prise(PDamier plateau, int t, int position[4]){
+	int x1 = position[0];							//position initial x1
+	int y1 = position[1];							//position initial y1
+	int x2 = position[2];							//position final x2
+	int y2 = position[3];							//position final y2
+	int diff_x = (x2 - x1)/2;							//x2 position de fin en x (A-J), x1 position inital en x (A-J)
+	int diff_y = (y2 - y1)/2;							//y2 position de fin en y (0-9), y1 position inital en y (0-9)
+	if(plateau->plateau[x2][y2] == 0){
+		if(plateau->plateau[x1+diff_x][y1+diff_y]==PION_NOIR){	//si c'est le tour des blancs alors on peut faire une prise noir
+            if (t==0){
+                plateau->plateau[x1+diff_x][y1+diff_y] = 0;
+                plateau->plateau[x1][y1] = 0;
+                plateau->nb_noirs--;
+                plateau->plateau[x2][y2] = PION_BLANC;
+                return 0;
+            }
+            else{
+                printf("ERREUR: ce n'est pas votre pièce!\n");
+                return -1;
+            }
+		}
+		if(plateau->plateau[x1+diff_x][y1+diff_y]==PION_BLANC){ // tour des noirs
+			if (t==1){
+                plateau->plateau[x1+diff_x][y1+diff_y] = 0;
+                plateau->plateau[x1][y1] = 0;
+                plateau->nb_blancs--;
+                plateau->plateau[x2][y2] = PION_NOIR;
+                return 0;
+			}
+			else{
+                printf("ERREUR: ce n'est pas votre pièce!\n");
+                return -1;
+			}
+		}
+        else{
+            return -1;
+        }
+	}
+	else{
+		printf("Case d'arriver non vide \n");
+		return -1;
+	}
+}
+
+int test_dep(PDamier jeu,int ligne,int cologne,int couleur){//TODO :tester si on peut deplacer UN PION
+           if(ligne>0 && cologne >0 && jeu->plateau[ligne][cologne-1]== VIDE ) return 0;
+           else if(ligne >0 && cologne >0 && jeu->plateau[ligne][cologne+1]==VIDE) return 0;
+           return -1;
+}
+int test_depDame(PDamier jeu,int ligne,int cologne){ //TODO : tester si on peut deplacer une DAME
+            int hg=fmin(ligne,cologne);
+            int hd=fmin(ligne,COLONNES-1-cologne);
+            int bg=fmin(LIGNES-1-ligne,cologne);
+            int bd=fmin(LIGNES-1-ligne,COLONNES-1-cologne);
+            for (int i=0; i<=hg; i++){
+                if (jeu->plateau[ligne-i][cologne-i]==VIDE){
+                        return 0;
+                    }
+           } 
+           for (int i=0; i<=hd; i++){
+                if (jeu->plateau[ligne-i][cologne+i]==VIDE){
+                        return 0;
+                    }
+           }
+            for (int i=0; i<=bg; i++){
+                if (jeu->plateau[ligne+i][cologne-i]==VIDE){
+                        return 0;
+                    }
+           }
+           for (int i=0; i<=bd; i++){
+                if (jeu->plateau[ligne+i][cologne+i]==VIDE){
+                        return 0;
+                    }                      
+           }
+     return -1;
+}
+
+int depDame(int code[4], PDamier damier, int tour){ //TODO : tester si on peut deplacer une DAME
+    if ((tour==0 && damier->plateau[code[0]][code[1]]==20) || (tour==1 && damier->plateau[code[0]][code[1]]==10)){
+        printf("ERREUR: Ce n'est pas votre pièce!\n");
+        return -1;
+    }
+    int hg=fmin(code[0],code[1]);
+    int hd=fmin(code[0],COLONNES-1-code[1]);
+    int bg=fmin(LIGNES-1-code[0],code[1]);
+    int bd=fmin(LIGNES-1-code[0],COLONNES-1-code[1]);
+    for (int i=0; i<=hg; i++){
+        if (code[0]-i==code[2] && code[1]-i==code[3]){
+            if(damier->plateau[code[2]][code[3]]==VIDE){
+                if (damier->plateau[0][1]==DAME_BLANCHE){
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_BLANCHE;
+                    return 0;
+                }
+                else{
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_NOIRE;
+                    return 0;
+                }
+            }
+            else{
+                printf("ERREUR: Case d'arrivée non nule!");
+                return -1;
+            }
+        }
+    }
+    for (int i=0; i<=hd; i++){
+        if (code[0]-i==code[2] && code[1]+i==code[3]){
+            if(damier->plateau[code[2]][code[3]]==VIDE){
+                if (damier->plateau[0][1]==DAME_BLANCHE){
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_BLANCHE;
+                    return 0;
+                }
+                else{
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_NOIRE;
+                    return 0;
+                }
+            }
+            else{
+                printf("ERREUR: Case d'arrivée non nule!");
+                return -1;
+            }
+        }
+    }
+    for (int i=0; i<=bg; i++){
+        if (code[0]+i==code[2] && code[1]-i==code[3]){
+            if(damier->plateau[code[2]][code[3]]==VIDE){
+                if (damier->plateau[0][1]==DAME_BLANCHE){
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_BLANCHE;
+                    return 0;
+                }
+                else{
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_NOIRE;
+                    return 0;
+                }
+            }
+            else{
+                printf("ERREUR: Case d'arrivée non nule!");
+                return -1;
+            }
+        }
+    }
+    for (int i=0; i<=bd; i++){
+        if (code[0]+i==code[2] && code[1]+i==code[3]){
+            if(damier->plateau[code[2]][code[3]]==VIDE){
+                if (damier->plateau[0][1]==DAME_BLANCHE){
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_BLANCHE;
+                    return 0;
+                }
+                else{
+                    damier->plateau[0][1]=VIDE;
+                    damier->plateau[2][3]=DAME_NOIRE;
+                    return 0;
+                }
+            }
+            else{
+                printf("ERREUR: Case d'arrivée non nule!");
+                return -1;
+            }
+        }
+    }
+    printf("ERREUR: case d'arrivée non valide!\n");
+    return -1;
+}
+
+int choisir_deplacement(PDamier damier, int code[4], int tour){
+    int dep=abs(code[2]-code[0]); // Nombre de cases de déplacement
+    switch (dep){
+        case 1:
+            return mv_normal(code, damier, tour);
+        case 2:
+            return prise(damier, tour, code);
+        default:
+            return depDame(code, damier, tour);
+    }
+}

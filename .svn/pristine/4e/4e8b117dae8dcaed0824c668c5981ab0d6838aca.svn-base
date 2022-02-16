@@ -1,0 +1,83 @@
+#include "jeu.h"
+#include "reseau.h"
+#include <string.h>
+#include <stdlib.h>
+
+/*
+ * Options de lancement du programme :
+ *      --pvp   => JOUEUR CONTRE JOUEUR
+ *
+ * Si option invalide,
+ * erreur + fin du programme
+ */
+
+
+void afficheOptions(){
+    /* affiche toutes les options de lancement du programme */
+    printf("Liste des options : \n");
+    printf("\t--pvp : joueur contre joueur\n");
+
+}
+
+int main(int argc, char* argv[]){
+
+    if(argc < 2){ // vérifie qu'on a bien une option
+
+        fprintf(stderr, "Il  faut une option pour lancer le programme !\n./dames --help pour voir les options\n");
+        return EXIT_FAILURE;
+
+    }
+
+
+    if(strcmp("--help", argv[1]) == 0){ // affichage des options
+        afficheOptions();
+        return EXIT_SUCCESS;
+    }
+
+    if(strcmp("--pvp", argv[1]) == 0){ // vérifie si l'option est bonne
+
+        /* création + initialisation du damier */
+        PDamier d=new_damier();
+        init_damier(d);
+        /* lancement du jeu */
+        jeu(d);
+
+    }
+    if(strcmp("--port", argv[1]) == 0){
+        SOCKET maitre=tcp_creer_serveur(atoi(argv[2]));
+        if (maitre==INVALID_SOCKET) exit(1);
+        while(1){
+            printf("en attente d'une connexion... \n");
+            SOCKET esclave=accept(maitre,NULL,0);
+            tcp_ecrire(esclave, "bonjour");
+            printf("message envoyé, en attente de réponce\n");
+            char message[50];
+            //tcp_lire(esclave,message);
+            printf("Le serveur à reçu: %s\n",message);
+            shutdown(esclave, 2);
+        }
+
+    }
+    if(strcmp("--connect", argv[1]) == 0){
+        char* ip = strtok(argv[2],":");
+        int port = atoi(strtok(NULL,":"));
+        printf("connection à l'IP %s sur le port %i\n",ip,port);
+        SOCKET chaussette=tcp_connecter_client(ip,port);
+        if (chaussette==INVALID_SOCKET) exit(1);
+        char message[8];
+        printf("en attente du message... \n");
+        tcp_lire(chaussette,message);
+        printf("Le client à reçu: %s\n",message);
+        printf("message reçu, envoi du message\n");
+        tcp_ecrire(chaussette, "au revoir");
+        shutdown(chaussette,2);
+    }
+    else{
+
+        fprintf(stderr,"Option invalide : %s !\n./dames --help pour voir les options\n", argv[1]);
+        return EXIT_FAILURE;
+
+    }
+
+    return EXIT_SUCCESS;
+}

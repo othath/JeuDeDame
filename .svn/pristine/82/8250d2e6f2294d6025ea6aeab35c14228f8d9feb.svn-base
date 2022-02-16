@@ -1,0 +1,17 @@
+#ifndef RAFLE_H_
+#define RAFLE_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "grille.h"
+#include "deplacement.h"
+
+typedef struct cel* liste;
+struct cel{
+    int c[2];
+    liste next;
+};
+typedef struct cel cel;
+
+int rafle(PDamier plateau, int t, int position[4], int e);
+#endif // RAFLE_H_

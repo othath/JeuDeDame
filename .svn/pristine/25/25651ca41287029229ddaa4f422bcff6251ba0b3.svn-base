@@ -1,0 +1,30 @@
+#include "constantes.h"
+
+/*
+ * CONDITIONS POUR GAGNER SI L'ADVERSAIRE :
+ *  - abandonne
+ *  - ne peut plus jouer
+ *  - n'a plus de pièces
+ */
+
+int plusDePieces(int tour, PDamier d){
+    /* vérifie si le joueur dont c'est le tour n'a plus de pièces
+     * si plus de pièces RETURN 0
+     * si encore des pièces RETURN -1
+     */
+    if(tour%2 == 0){ // vérification sur le joueur blanc
+        if(d->nb_blancs == 0 && d->nb_dblanc == 0){
+            return 0;
+        }
+    }else{ // vérif sur le joueur noir
+        if(d->nb_noirs == 0 && d->nb_dnoir == 0){
+            return 0;
+        }
+    }
+    return -1;
+}
+
+int jeu(){
+    int tour = 0;
+    int compteur = 0;
+}

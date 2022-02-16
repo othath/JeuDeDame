@@ -1,0 +1,33 @@
+/**
+* \file minxmax_ia.h
+* \brief Implémentation de l'IA à l'aide de l'algorithme minmax.
+* \author maxime.kuhn1@uha.fr
+* \version 1
+*
+*/
+/*
+#ifndef MINMAX_IA_
+#define MINMAX_IA_
+
+#include <stdlib.h>
+
+#include "grille.h"
+*/
+/* structure(s) */
+/*
+struct Noeud{
+    PDamier d;
+    struct Noeud** fils;
+    int nb_fils;
+    int valeur; // valeur de l'évaluation heuristique
+};
+
+typedef struct Noeud noeud_t;
+*/
+/* signatures des fonctions */
+/*
+int heuristique(PDamier d);
+void genere_arbre(noeud_t *root, PDamier d, int profondeur);
+void choisir_valeur_noeud(noeud_t *n, int min);
+*/
+//#endif // IA minmax

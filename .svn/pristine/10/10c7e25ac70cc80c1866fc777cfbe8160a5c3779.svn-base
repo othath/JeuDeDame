@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define ligne  10
+#define colonne  10
+
+ struct plateau{
+          int label;
+};
+
+
+void initialisation();
+void affichage();

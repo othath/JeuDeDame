@@ -1,0 +1,33 @@
+#include "grille.h"
+
+PDamier new_damier(){
+    /* créé un nouveau damier et initialise toute la grille à 0 */
+    PDamier d = (PDamier)malloc(sizeof(struct Damier));
+    d->nb_blancs = 0;
+    d->nb_noirs = 0;
+    for(int i=0; i<LIGNES; i++){
+        for(int j=0; j<COLONNES; j++){
+            d->plateau[i][j] = 0;
+        }
+    }
+    return d;
+}
+
+void init_damier(PDamier d){
+    /* initialise le damier en placant les pions noirs et les pions blancs au bon endroit */
+    for(int i=0; i<LIGNES; i++){
+        for(int j=0; j<COLONNES; j++){
+            // TODO : remplissage
+        }
+    }
+}
+
+void afficher_damier(PDamier d){
+    /* affiche le damier */
+    for(int i=0; i<LIGNES; i++){
+        for(int j=0; j<COLONNES; j++){
+            printf(" %i ",d->plateau[i][j]);
+        }
+        printf("\n");
+    }
+}

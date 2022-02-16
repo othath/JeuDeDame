@@ -1,0 +1,17 @@
+#include "joueur.h"
+#include <string.h>
+
+PJoueur new_Joueur(char* nom){
+  PJoueur j = (PJoueur)malloc(sizeof(struct Joueur));
+  strcpy(j->nom,nom);
+  j->nb_victoire = 0;
+  return j;
+}
+
+void setName(PJoueur j,char *nom){
+    strcpy(j->nom,nom);
+
+}
+  char* getName(PJoueur j){
+    return j->nom;
+}

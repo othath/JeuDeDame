@@ -1,0 +1,11 @@
+#include "grille.h"
+
+int main(int argc, char* argv[]){
+    /* création + initialisation du damier */
+    PDamier d=new_damier();
+    init_damier(d);
+    /* affichage du damier */
+    afficher_damier(d);
+    
+    return 0;
+}

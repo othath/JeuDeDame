@@ -1,0 +1,51 @@
+/* bibliothèques existantes */
+#include <stdlib.h>
+#include <string.h>
+
+/* bibliothèques créées */
+#include "grille.h"
+#include "deplacement.h"
+#include "input.h"
+
+#define MAX_INPUT 100
+
+int main(int argc, char* argv[]){
+   int opt;
+    /* création + initialisation du damier */
+    PDamier d=new_damier();
+    init_damier(d);
+
+    printf("\n---------Welcome---------\n");
+    while(opt){
+   printf("\n-1- Aide pour les mouvements de pieces\n");
+    printf("-2-Commencer le jeu\n");
+   printf("-0- Quitter\n");
+    printf("Choix?\n");
+   scanf("%d",&opt);
+    printf("------------------------\n");
+   switch (opt){
+         case 1 : manuelMouvement();
+                      break;
+         case 2:
+               afficher_damier(d);
+              // Nouveau_jeu();
+                break ;
+
+                }
+    }
+
+    /* entrée utilisateur */
+    char input[MAX_INPUT];
+    fgets(input,MAX_INPUT,stdin);
+    while(checkInput(input) == -1){ // tant que input pas OK
+        fgets(input,MAX_INPUT,stdin);
+    }
+    tableauDeplacement();
+    int* code=tableauDeplacement(); // just test it
+              if (mv_normal(code,d)>=0){
+               afficher_damier(d);
+               }
+    
+
+    return 0;
+}

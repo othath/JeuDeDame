@@ -1,0 +1,12 @@
+#include <stdlib.h>
+
+#include "src/deplacement.h"
+#include "src/grille.h"
+
+int test_deplacement_pion_illegal(){
+    /* test si les déplacements illégaux sont bloqués */
+}
+
+int main(int argc, char **argv){
+    return EXIT_SUCCESS;
+}

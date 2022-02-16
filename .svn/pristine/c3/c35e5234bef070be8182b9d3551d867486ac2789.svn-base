@@ -1,0 +1,33 @@
+#ifndef CONSTANTES_H_
+#define CONSTANTES_H_
+
+
+/* INCLUDE DES BIBLIOTHEQUES PERSO */
+
+#include "deplacement.h"
+#include "grille.h"
+#include "input.h"
+
+/* INCLUDE DES BIBLIOTHEQUES C# */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+/* INCLUDE DES DEFINE */
+
+	/* dimensions du plateau */
+
+#define LIGNES 10
+#define COLONNES 10
+
+	/* valeurs des pions */
+
+#define VIDE 0
+#define PION_BLANC 1
+#define PION_NOIR 2
+#define DAME_BLANCHE 10
+#define DAME_NOIRE 20
+
+#endif

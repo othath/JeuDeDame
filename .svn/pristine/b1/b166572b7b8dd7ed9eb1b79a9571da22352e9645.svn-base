@@ -1,0 +1,175 @@
+#include "constantes.h"
+
+int mv_normal(int code[4], PDamier damier, int tour){
+    switch (damier->plateau[code[0]][code[1]]){
+        case 0:
+            printf("ERREUR: case de départ vide!");
+            return -1;
+        case 1:
+            if (tour==1){
+                printf("ERREUR: Ce n'est pas votre pièce!");
+                return -1;
+            }
+            if (code[2]==code[0]+1 && (code[3]==code[1]-1 || code[3]==code[1]+1) && damier->plateau[code[2]][code[3]]==VIDE){
+                damier->plateau[code[0]][code[1]]=VIDE;
+                damier->plateau[code[2]][code[3]]=PION_BLANC;
+                return 0;
+            }
+            else {
+                printf("ERREUR: case d'arrivée non valide!\n");
+                return -1;
+            }
+        case 2:
+            if (tour==0){
+                printf("ERREUR: Ce n'est pas votre pièce!");
+                return -1;
+            }
+            if (code[2]==code[0]-1 && (code[3]==code[1]-1 || code[3]==code[1]+1) && damier->plateau[code[2]][code[3]]==VIDE){
+                damier->plateau[code[0]][code[1]]=VIDE;
+                damier->plateau[code[2]][code[3]]=PION_BLANC;
+                return 0;
+            }
+            else {
+                printf("ERREUR: case d'arrivée non valide!\n");
+                return -1;
+            }
+        default:;
+            if ((tour==0 && damier->plateau[code[0]][code[1]]==20) || (tour==1 && damier->plateau[code[0]][code[1]]==10)){
+                printf("ERREUR: Ce n'est pas votre pièce!");
+                return -1;
+            }
+            int hg=fmin(code[0],code[1]);
+            int hd=fmin(code[0],COLONNES-1-code[1]);
+            int bg=fmin(LIGNES-1-code[0],code[1]);
+            int bd=fmin(LIGNES-1-code[0],COLONNES-1-code[1]);
+            for (int i=0; i<=hg; i++){
+                if (code[0]-i==code[2] && code[1]-i==code[3] && damier->plateau[code[2]][code[3]]==VIDE){
+                    if (damier->plateau[0][1]==DAME_BLANCHE){
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_BLANCHE;
+                        return 0;
+                    }
+                    else{
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_NOIRE;
+                        return 0;
+                    }
+                }
+            }
+            for (int i=0; i<=hd; i++){
+                if (code[0]-i==code[2] && code[1]+i==code[3] && damier->plateau[code[2]][code[3]]==VIDE){
+                    if (damier->plateau[0][1]==DAME_BLANCHE){
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_BLANCHE;
+                        return 0;
+                    }
+                    else{
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_NOIRE;
+                        return 0;
+                    }
+                }
+            }
+            for (int i=0; i<=bg; i++){
+                if (code[0]+i==code[2] && code[1]-i==code[3] && damier->plateau[code[2]][code[3]]==VIDE){
+                    if (damier->plateau[0][1]==DAME_BLANCHE){
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_BLANCHE;
+                        return 0;
+                    }
+                    else{
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_NOIRE;
+                        return 0;
+                    }
+                }
+            }
+            for (int i=0; i<=bd; i++){
+                if (code[0]+i==code[2] && code[1]+i==code[3] && damier->plateau[code[2]][code[3]]==VIDE){
+                    if (damier->plateau[0][1]==DAME_BLANCHE){
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_BLANCHE;
+                        return 0;
+                    }
+                    else{
+                        damier->plateau[0][1]=VIDE;
+                        damier->plateau[2][3]=DAME_NOIRE;
+                        return 0;
+                    }
+                }
+            }
+            printf("ERREUR: case d'arrivée non valide!\n");
+            return -1;
+    }
+}
+
+void dame(PDamier plateau){
+	for(int i=0; i<COLONNES; i++){
+		if(plateau->plateau[0][i]==PION_NOIR){
+			plateau->plateau[0][i]=DAME_NOIRE;
+		}
+		if(plateau->plateau[9][i]==PION_BLANC){
+			plateau->plateau[9][i]=DAME_BLANCHE;
+		}
+	}
+}
+
+void prise(PDamier plateau, int t, int position[4]){
+	mv_normal(int code[4], PDamier plateau);
+	int x1 = position[0];							//position initial x1	
+	int y1 = position[1];							//position initial y1	
+	int x2 = position[2];							//position final x2	
+	int y2 = position[4];							//position final y2	
+	int diff_x = x2 - x1;							//x2 position de fin en x (A-J), x1 position inital en x (A-J)
+	int diff_y = y2 - y1;							//y2 position de fin en y (0-9), y1 position inital en y (0-9)
+	if(t = 0 || plateau->plateau[x1+diff_x][y1+diff_y] = PION_NOIR;){	//si c'est le tour des blancs alors on peut faire une prise noir
+		plateau->plateau[x1+diff_x][y1+diff_y] = 0;
+	}
+	if(t = 1 || plateau->plateau[x1+diff_x][y1+diff_y] = PION_BLANC){	//si c'est le tour des noirs alors on peut faire une prise blanche
+		plateau->plateau[x1+diff_x][y1+diff_y] = 0;
+	}
+}
+/* void detection(PDamier plateau){
+	for(int j=0; j<=COLONNES; j++){
+		for(int i=0; i<=LIGNES; i++){
+			if(plateau->plateau[i][j] == PION_NOIR){
+				if(plateau->[i-1][j-1] == PION_BLANC){
+					//TODO: comparer le pions en i-2 j-2
+					if(plateau->[i-2][j-2] == PION_BLANC){
+						//TODO: si il n'y a pas de pions alors déplacement
+					}
+					else{
+						//TODO: ne pas se déplacer
+					}
+				}
+				if(plateau->[i+1][j-1] == PION_BLANC){
+					//TODO: comparer le pions en i+2 j-2
+					if(plateau->[i+2][j-2] == PION_BLANC){
+						//TODO: si il n'y a pas de pions alors déplacement
+					}
+					else{
+						//TODO: ne pas se déplacer
+					}
+				}
+				if(plateau->[i-1][j+1] == PION_BLANC){
+					//TODO: comparer le pions en i-2 j+2
+					if(plateau->[i-1][j+2] == PION_BLANC){
+						//TODO: si il n'y a pas de pions alors déplacement
+					}
+					else{
+						//TODO: ne pas se déplacer
+					}
+				}
+				if(plateau->[i+1][j+1] == PION_BLANC){
+					//TODO: comparer le pions en i+2 j+2
+					if(plateau->[i+2][j+2] == PION_BLANC){
+						//TODO: si il n'y a pas de pions alors déplacement
+					}
+					else{
+						//TODO: ne pas se déplacer
+					}
+				}
+			}
+		}
+	}
+} */

@@ -1,0 +1,33 @@
+#include "jeu.h"
+
+int main(int argc, char* argv[]){
+    /* création + initialisation du damier */
+    char* joueur1= NULL;
+    joueur1 = malloc(sizeof(char));
+printf("Nom du joueur 1 (Joueur blanc) :");
+scanf("%s", joueur1);
+
+
+    char answer;
+    printf("\voulez-vous jouer contre une IA? taper Y or N: \n");
+    scanf("%c", &answer);
+    if (answer == 'Y'){
+        printf("Vous allez affronter une IA");
+        scanf("%c", &answer);
+                printf("Voulez-vous jouer les blancs ou les noirs? Taper B or N");
+        scanf("%c", &answer);
+            if (answer == 'B'){
+                    printf("Vous allez jouer les blancs\n");
+                } else {
+                    printf("Vous allez jouer les noirs\n");
+                }
+
+    } else {
+    printf("Vous allez jouer contre une personne \n");
+    }
+
+    PDamier d=new_damier();
+    init_damier(d);
+    jeu(d);
+    return 0;
+}

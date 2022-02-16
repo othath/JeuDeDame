@@ -1,0 +1,45 @@
+#include "constantes.h"
+
+#define MAX_INPUT 100
+
+int main(int argc, char* argv[]){
+    /* création + initialisation du damier */
+    PDamier d=new_damier();
+    init_damier(d);
+
+    /* affichage du damier */
+    afficher_damier(d);
+
+    /* tour = 0 ==> blanc || tour = 1 ==> noir */
+    int tour = 0;
+
+    /* entrée utilisateur */
+    char input[MAX_INPUT];
+    printf("Syntaxe des coups : CASE_DE_DEPART CASE_ARRIVEE (ex : A1 B9)\n");
+    printf("Coup à jouer : ");
+    fgets(input,MAX_INPUT,stdin);
+    while(checkInput(input) == -1){ // tant que input pas OK
+        printf("Coup à jouer : ");
+        fgets(input,MAX_INPUT,stdin);
+    }
+    printf("\n");
+    
+   /* just test it ,recuperer dans le jeu  
+    joueur *j=(joueur*)malloc(sizeof(struct joueur));
+    char nom[MAX_INPUT];
+    printf("Votre nom:\n");
+    fgets(nom,MAX_INPUT,stdin);
+    setName(j,nom);
+    //printf("%s",getName(j));   
+   */ 
+  
+ 
+
+    /* conversion de l'entrée utilisateur en tableau d'entiers */
+    
+    int* tableauInput = envoyerInput(input);
+    mv_normal(tableauInput,d,tour);
+
+
+    return 0;
+}

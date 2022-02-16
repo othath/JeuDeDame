@@ -1,0 +1,15 @@
+#ifndef CONST_H_
+#define CONST_H_
+
+#include <math.h> 
+#include <gtk/gtk.h> 
+
+void on_destroy(GtkWidget *widget, gpointer data); 
+void button_cb(GtkWidget *widget, gpointer data); 
+gboolean draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
+void draw(cairo_t *cr);
+void clear(cairo_t *cr);
+int button_clicked;
+void button_cb(GtkWidget *widget, gpointer data);
+
+#endif

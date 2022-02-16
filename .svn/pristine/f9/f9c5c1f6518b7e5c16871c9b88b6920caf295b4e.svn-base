@@ -1,0 +1,114 @@
+#include "ia.h"
+
+PPiece new_piece(int c, int type, int pos[]){
+    PPiece p = (PPiece)malloc(sizeof(struct Piece));
+    p->couleur = c;
+    p->type = type;
+    p->position[0] = pos[0];
+    p->position[1] = pos[1];
+    return p;
+}
+
+PPiece* pieces_blanches(PDamier d){
+    /* renvoie un tableau de pièces blanches */
+
+    // tableau à renvoyer
+    PPiece pieces[20];
+
+    // insertion dans pieces
+    int k = 0;
+
+    for(int i=0;i<LIGNES;i++){
+        for(int j=0;j<COLONNES;j++){
+            int pos[] = {i,j};
+            if(d->plateau[i][j] == PION_BLANC){
+                PPiece p = new_piece(BLANC, PION, pos);
+                // TODO : getVoisins
+                pieces[k] = p;
+                k++;
+            }
+            else if(d->plateau[i][j] == DAME_BLANCHE){
+                PPiece p = new_piece(BLANC, PION, pos);
+                // TODO : getVoisins
+                pieces[k] = p;
+                k++;
+            }
+        }
+    }
+}
+
+
+PPiece* pieces_noires(PDamier d){
+    /* renvoie un tableau de pièces noires */
+
+    // tableau à renvoyer
+    PPiece pieces[20];
+
+    // insertion dans pieces
+    int k = 0;
+
+    for(int i=0;i<LIGNES;i++){
+        for(int j=0;j<COLONNES;j++){
+            int pos[] = {i,j};
+            if(d->plateau[i][j] == PION_NOIR){
+                PPiece p = new_piece(NOIR, PION, pos);
+                // TODO : getVoisins
+                pieces[k] = p;
+                k++;
+            }
+            if(d->plateau[i][j] == DAME_NOIRE){
+                PPiece p = new_piece(NOIR, PION, pos);
+                // TODO : getVoisins
+                pieces[k] = p;
+                k++;
+            }
+        }
+    }
+}
+
+
+int aleatoire(PPiece p_b, PPiece p_n, PDamier d, int code[4], int tour){
+	
+	int nbPion=0;
+	int nbPionMax;
+	
+	if(tour%2==0) { 
+		nbPionMax=d->nb_blancs+d->nb_dblanc;//nbPion dans le plateau color=PION_BLANC; 
+		} 
+		else if(tour%2!=0){ 
+		nbPionMax=d->nb_noirs+d->nb_dnoir; 
+		//color=PION_NOIR; 
+		}
+	
+	while(nbPion<nbPionMax){
+	
+		int i = rand() % nbPionMax/2;
+		int x1 = (2*i);
+		int y1 = (2*i)+1;
+		code[0] = p_b->position[x1];
+		code[1] = p_b->position[y1];
+
+	if (mv_normal(code, d, tour) == 0){
+		return 0;
+		exit(0);//Deplacement simple
+	}
+	if (prise(d, tour, code) == 0){
+		return 0;
+		exit(0);//Prise simple (obligatoire)
+	}
+	else{
+		nbPion++; //Rien donc on réitère l'opération
+		return -1;}
+	}
+}
+int mv_aleatoire(PDamier d,int tour){
+      int* dep;
+      dep=trouverCoup(d,tour);
+      if(dep==NULL){ //on a trouve un coup 
+      //printf("\nJE suis sans mv Dep1 %d dep2 %d dep3 %d dep4 %d\n",*dep,*(dep+1),*(dep+2),*(dep+3));
+       if(mv_normal(dep, d, tour)==0) return 0; //Dep des pions
+       return 0;
+      }
+ return -1; 
+}
+     

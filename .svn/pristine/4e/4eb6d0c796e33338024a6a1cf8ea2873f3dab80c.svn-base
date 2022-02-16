@@ -1,0 +1,48 @@
+#ifndef IHM_H_
+#define IHM_H_
+
+#include <math.h> 
+#include <stdlib.h>
+#include <stdio.h>
+#include <gtk/gtk.h>
+
+#include "../src/grille.h"
+
+/* Hauteur et largeur de la fenêtre */
+#define HAUTEUR 550
+#define LARGEUR 480
+/* Hauteur et largeur des rectangles */
+#define RHauteur 40
+#define RLargeur 40
+/* Hauteur et largeur des dames */
+#define Phauteur 20
+#define Plargeur 20
+/* Diamètre du des pions */
+#define DIAMETRE 10
+/* Position de l'affichage des coordonnées */
+#define Hauteurc 40
+#define Largeurc 490
+
+/* Entêtes */
+
+void fermerFenetre(GtkWidget *widget, gpointer data);
+void clear(cairo_t *cr);
+
+/* Différent dessins */
+void dessinBordure(cairo_t *cr);
+void dessinContour(cairo_t *cr);
+void dessinDamier(cairo_t *cr);
+void dessinPionN(cairo_t *cr);
+void dessinPionB(cairo_t *cr);
+void dessinAffichageNbB(cairo_t *cr);
+void dessinAffichageNbN(cairo_t *cr);
+
+
+
+/* Appel au dessin */
+gboolean draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
+
+/* Zone de texte */
+void activationEntree(GtkEntry *entry, gpointer data);
+
+#endif

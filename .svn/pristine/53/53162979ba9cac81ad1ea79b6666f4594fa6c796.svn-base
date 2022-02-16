@@ -1,0 +1,50 @@
+#include "constantes.h"
+
+int victoire(){
+    /* fonction temporaire , -1 si pas victoire*/
+    return -1;
+}
+
+int plusDePieces(int tour, PDamier d){
+    /* vérifie si le joueur dont c'est le tour n'a plus de pièces
+     * si plus de pièces RETURN 0
+     * si encore des pièces RETURN -1
+     */
+    if(tour%2 == 0){ // vérification sur le joueur blanc
+        if(d->nb_blancs == 0 && d->nb_dblanc == 0){
+            return 0;
+        }
+    }else{ // vérif sur le joueur noir
+        if(d->nb_noirs == 0 && d->nb_dnoir == 0){
+            return 0;
+        }
+    }
+    return -1;
+}
+
+int jeu(PDamier d){
+    int tour = 0;
+    int compteur = 0;
+    while(victoire() == -1){
+        afficher_damier(d);
+        char input[MAX_INPUT];
+        printf("Tour : %i\n", tour%2);
+        printf("Syntaxe des coups : CASE_DE_DEPART CASE_ARRIVEE (ex : A1 B9)\n");
+        printf("Coup à jouer : ");
+        fgets(input,MAX_INPUT,stdin);
+        while(checkInput(input) == -1){ // tant que input pas OK
+            printf("Coup à jouer : ");
+            fgets(input,MAX_INPUT,stdin);
+        }
+        while(mv_normal(envoyerInput(input),d,tour%2) == -1){
+            printf("Coup à jouer : ");
+            fgets(input,MAX_INPUT,stdin);
+            while(checkInput(input) == -1){ // tant que input pas OK
+                printf("Coup à jouer : ");
+                fgets(input,MAX_INPUT,stdin);
+            }
+        }
+        tour++;
+    }
+    return 0;
+}

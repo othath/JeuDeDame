@@ -1,0 +1,10 @@
+#include "jeu.h"
+
+int main(int argc, char* argv[]){
+    /* création + initialisation du damier */
+    PDamier d=new_damier();
+    init_damier(d);
+    /* lancement du jeu */
+    jeu(d);
+    return 0;
+}

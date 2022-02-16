@@ -1,0 +1,37 @@
+#include "dame.h"
+
+struct plateau plateau[ligne][colonne];
+void initialisation(){
+    int i,j;
+ for( i=0;i<10;i++){
+     for( j=0;j<10;j++){
+       plateau[i][j].label=0;
+     }
+ }
+ }
+
+void affichage(){
+    int counter=0;
+    printf(" A B C D E F G H I J \n");
+     for(int i=0;i<10;i++){
+         printf("---------------------\n");
+     for(int j=0;j<10;j++){
+        counter++;
+        printf("|");
+        printf("%d",plateau[i][j].label);
+        if(counter%10==0) printf("|\t%d\n",counter/10);// pour revenir a la ligne
+     }
+ }
+}
+void remplissage(){
+    for (int i=0; i<10; i+=2){
+        plateau[0][i].label=pion_blanc;
+        plateau[2][i].label=pion_blanc;
+        plateau[6][i].label=pion_noir;
+        plateau[8][i].label=pion_noir;
+         plateau[1][i+1].label=pion_blanc;
+        plateau[3][i+1].label=pion_blanc;
+        plateau[7][i+1].label=pion_noir;
+        plateau[9][i+1].label=pion_noir;
+    }
+}

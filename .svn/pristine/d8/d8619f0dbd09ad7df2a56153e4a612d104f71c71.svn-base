@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+char* joueur1 = NULL;
+
+void initjoueur()
+{
+joueur1 = malloc(sizeof(char));
+
+printf("Nom du joueur 1 :");
+scanf("%s", joueur1);
+}
+void joueur(){
+    char answer;
+    printf("\voulez-vous jouer contre une IA? taper Y or N: \n", answer);
+    scanf("%c", &answer);
+    printf("\n vous avez choisi %c");
+    if (answer == 'Y'){
+        printf("Vous allez affronter une IA");
+        scanf("%c", &answer);
+    } else {
+    printf("Vous allez joueur contre une personne");
+    initjoueur();
+    }
+
+    return 0;
+}
+

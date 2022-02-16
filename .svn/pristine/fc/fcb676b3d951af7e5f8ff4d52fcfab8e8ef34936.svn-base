@@ -1,0 +1,108 @@
+/**
+* \file ihm.h
+* \brief Création de l'interface graphique
+* \author albi.grainca@uha.fr, jerry.chan@uha.fr
+* \version 1
+*
+*/
+#ifndef IHM_H_
+#define IHM_H_
+
+#include <math.h> 
+#include <stdlib.h>
+#include <stdio.h>
+#include <gtk/gtk.h>
+
+#include "../src/grille.h"
+#include "../src/const.h"
+#include "../src/input.h"
+#include "../src/deplacement.h"
+
+
+/* Hauteur et largeur de la fenêtre */
+#define HAUTEUR 510
+#define LARGEUR 480
+/* Hauteur et largeur des rectangles */
+#define RHauteur 40
+#define RLargeur 40
+/* Hauteur et largeur des dames */
+#define Phauteur 20
+#define Plargeur 20
+/* Diamètre du des pions */
+#define DIAMETRE 10
+/* Position de l'affichage des coordonnées */
+#define Hauteurc 40
+#define Largeurc 490
+
+/* Constructeur */
+
+void fermerFenetre(GtkWidget *widget, gpointer data);
+void clear(cairo_t *cr);
+
+/* Différent dessins */
+/**
+* \fn dessinBordure(cairo_t *cr)
+* \brief constructeur qui crée les borudures autour du damier
+* \param *cr : paramètre qui utilise un pointeur
+*/
+void dessinBordure(cairo_t *cr);
+
+/**
+* \fn dessinContour(cairo_t *cr)
+* \brief constructeur qui crée les contours du damier
+* \param *cr : paramètre qui utilise un pointeur 
+*/
+void dessinContour(cairo_t *cr);
+
+/**
+* \fn dessinDamier(cairo_t *cr)
+* \brief constructeur qui crée le damier avec ces différentes cases
+* \param *cr : paramètre qui utilise un pointeur
+*/
+void dessinDamier(cairo_t *cr);
+
+/**
+* \fn dessinPion(cairo_t *cr)
+* \brief constructeur qui crée les Pions noirs et les Pions blancs
+* \param *cr : paramètre qui utilise un pointeur
+*/
+void dessinPions(cairo_t *cr);
+
+/**
+* \fn dessinDameN(cairo_t *cr)
+* \brief constructeur qui crée les dames noir
+* \param *cr : paramètre qui utilise un pointeur
+*/
+void dessinDameN(cairo_t *cr);
+
+/**
+* \fn dessinDameB(cairo_t *cr)
+* \brief constructeur qui crée les dames blanches
+* \param *cr : paramètre qui utilise un pointeur
+*/
+void dessinDameB(cairo_t *cr);
+
+/**
+* \fn dessinTour(cairo_t *cr)
+* \brief constructeur qui créer l'affichage du nombre de pions blanc
+* \param *cr : paramètre qui utilise un pointeur
+*/
+void dessinTour(cairo_t *cr);
+
+/**
+* \fn draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
+* \brief constructeur fait appel à tout les dessins qui ont été créé
+* \param *widget : paramètre qui reprend la widget *cr : reprend le cr
+* \return return FALSE;
+*/
+gboolean draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
+
+/* Zone de texte */
+/**
+* \fn activationEntree(GtkEntry *entry, gpointer data)
+* \brief constructeur recupère le texte enté dans la zone de texte
+* \param *entry : texte ecris dans la zone de texte
+*/
+void activationEntree(GtkEntry *entry, gpointer data);
+
+#endif

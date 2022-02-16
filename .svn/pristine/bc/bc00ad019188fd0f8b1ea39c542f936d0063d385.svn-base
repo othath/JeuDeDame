@@ -1,0 +1,14 @@
+#ifndef INPUT_H_
+#define INPUT_H_
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+/* entêtes */
+int checkInput(char input[]);
+int *envoyerInput(char input[]);
+void decode_normal(char input[], int* code);
+void decode_rafle(char input[], int** rafle);
+void encode_normal(int code[4], char* message);
+#endif

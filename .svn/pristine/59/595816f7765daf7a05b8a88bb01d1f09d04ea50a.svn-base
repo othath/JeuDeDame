@@ -1,0 +1,227 @@
+#include "ia.h"
+#include "deplacement_ia.h"
+
+PPiece new_piece(int c, int type, int pos[]){
+    PPiece p = (PPiece)malloc(sizeof(struct Piece));
+    p->couleur = c;
+    p->type = type;
+    p->position[0] = pos[0];
+    p->position[1] = pos[1];
+    return p;
+}
+
+int aleatoire(PPiece p_b, PPiece p_n, PDamier d, int code[4], int tour){
+	
+	int nbPion=0;
+	int nbPionMax;
+	
+	if(tour%2==0) { 
+		nbPionMax=d->nb_blancs+d->nb_dblanc;//nbPion dans le plateau color=PION_BLANC; 
+		} 
+		else if(tour%2!=0){ 
+		nbPionMax=d->nb_noirs+d->nb_dnoir; 
+		//color=PION_NOIR; 
+		}
+	
+	while(nbPion<nbPionMax){
+	
+		int i = rand() % nbPionMax/2;
+		int x1 = (2*i);
+		int y1 = (2*i)+1;
+		code[0] = p_b->position[x1];
+		code[1] = p_b->position[y1];
+		//definir code[2] et code [3]
+		switch(d->plateau[code[1]][code[0]]){
+		case PION_BLANC:
+			if (d->plateau[code[0]-1][code[1]-1]==VIDE){
+				code[2]=code[0]-1;
+				code[3]=code[1]-1;
+				}
+			if (d->plateau[code[0]+1][code[1]-1]==VIDE){
+				code[2]=code[0]+1;
+				code[3]=code[1]-1;
+				}
+			if (d->plateau[code[0]-2][code[1]-2]==VIDE){
+				code[2]=code[0]-2;
+				code[3]=code[1]-2;
+				}
+			if (d->plateau[code[0]+2][code[1]-2]==VIDE){
+				code[2]=code[0]+2;
+				code[3]=code[1]-2;
+				}
+		case PION_NOIR:
+			if (d->plateau[code[0]+1][code[1]+1]==VIDE){
+				code[2]=code[0]+1;
+				code[3]=code[1]+1;
+				}
+			if (d->plateau[code[0]-1][code[1]+1]==VIDE){
+				code[2]=code[0]-1;
+				code[3]=code[1]+1;
+				}
+			if (d->plateau[code[0]+2][code[1]+2]==VIDE){
+				code[2]=code[0]+2;
+				code[3]=code[1]+2;
+				}
+			if (d->plateau[code[0]-2][code[1]+2]==VIDE){
+				code[2]=code[0]-2;
+				code[3]=code[1]+2;
+				}
+		}
+
+	if (mv_normal(code, d, tour) == 0){
+		return 0;
+		exit(0);//Deplacement simple
+	}
+	if (prise(d, tour, code) == 0){
+		return 0;
+		exit(0);//Prise simple (obligatoire)
+	}
+	else{
+		nbPion++; //Rien donc on réitère l'opération
+		return -1;}
+	}
+return 0;
+}
+int mv_aleatoire(PDamier d,int tour){
+    int* dep;
+    dep=trouverCoup(d,tour);
+   //TODO:tester tous les pions si un Pion a une prise on fait cette prise obligatoirement
+
+     if(checkPrise(d,tour)==0) return 0;
+	/* mouvement aléatoire */
+    else if(dep!=NULL){ //on a trouve un coup 
+      	//printf("\nTour:%d mv Dep1 %d dep2 %d dep3 %d dep4 %d\n",tour,*dep,*(dep+1),*(dep+2),*(dep+3));
+       	if(mv_normal(dep, d, tour)==0) return 0; //Dep des pions
+        if(depDame(dep,d,tour)==0) return 0;
+    }
+   tour++;
+ 	return -1; 
+}
+int checkPrise(PDamier d,int tour){ // parcours tous les pions et check s'il a une prise possible'
+    int *check;
+    int* pos;
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+           // printf("ligne %d cologne %d\n",i,j);
+            check=prisesPourUnPion(d,tour,i,j);
+            if(check[0] ==1){//hg
+            printf("dans ma fct hg");
+             *pos=j;
+             *(pos+1)=i;
+              *(pos+2)=j-2;
+                *(pos+3)=i-2;
+        printf("HG TOUR:%d ci:%d li:%d cf:%d lf:%d\n",tour,*pos,*(pos+1),*(pos+2),*(pos+3));
+            prise(d,tour,pos);
+            return 0;
+            }  
+               
+            if(check[1] ==1){//hd
+            printf("Hd dans ma fct:%d\n",check[1]);
+             *pos=j;
+                printf("is here?");
+             *(pos+1)=i;
+              *(pos+2)=j+2;
+                *(pos+3)=i-2;
+            printf("HD TOUR:%d ci:%d li:%d cf:%d lf:%d\n",tour,*pos,*(pos+1),*(pos+2),*(pos+3));
+             prise(d,tour,pos);
+            return 0;
+            }  
+    
+            if(check[2] ==1){//bg
+             printf("BG %d %d dans ma fct:%d\n",i,j,check[2]);
+             *pos=j;
+             *(pos+1)=i;
+              *(pos+2)=j-2;
+                *(pos+3)=i+2;
+            printf("BG TOUR:%d ci:%d li:%d cf:%d lf:%d\n",tour,*pos,*(pos+1),*(pos+2),*(pos+3));
+            prise(d,tour,pos);
+            return 0;
+            }   
+
+            if(check[3] ==1){//bd
+             printf("BD dans ma fct:%d %d\n",check[3],prisesPourUnPion(d,tour,i,j)[3]);
+            printf("we here");
+             *pos=j;
+             *(pos+1)=i;
+              *(pos+2)=j+2;
+            printf("3");
+                *(pos+3)=i+2;
+            printf("BD TOUR:%d ci:%d li:%d cf:%d lf:%d\n",tour,*pos,*(pos+1),*(pos+2),*(pos+3));
+             prise(d,tour,pos);
+            return 0;
+            }   
+    }
+}
+return -1;
+}
+int* prisesPourUnPion(PDamier d, int tour, int i, int j){
+  
+    int cdv[LIGNES][COLONNES]; // cdv = copie damier virtuel
+    for(int i=0;i<LIGNES;i++){
+        for(int j=0;j<COLONNES;j++){
+        
+                cdv[i][j] = d->plateau[i][j];
+            
+        }
+    }
+    int *prises = (int*)malloc(4*sizeof(int));
+    for(int i=0;i<4;i++) *(prises+i) = 0;
+    if(tour == 0){ // tour du joueur blanc
+        if(cdv[i][j]==PION_BLANC){
+         if(i>1 && j>1){
+        if(cdv[i-1][j-1] == PION_NOIR || cdv[i-1][j-1] == DAME_NOIRE){ // diagonale haut gauche
+            if(cdv[i-2][j-2] == VIDE) *prises = 1;
+             printf("HG tour:%d Prises:%d\n",tour,*prises);
+         }
+}   
+     if(i>1 && j<COLONNES-2){
+        if(cdv[i-1][j+1] == PION_NOIR || cdv[i-1][j+1] == DAME_NOIRE){ // diagonale haut droite
+            if(cdv[i-2][j+2] == VIDE) *(prises+1) = 1;
+       printf("HD tour:%d Prises1:%d\n",tour,*(prises+1));
+        }
+}   
+        if(i<LIGNES-2 && j>1){
+        if(cdv[i+1][j-1] == PION_NOIR || cdv[i+1][j-1] == DAME_NOIRE){ // diagonale bas gauche
+            if(cdv[i+2][j-2] == VIDE){ *(prises+2) = 1;
+              printf("BG tour:%d  [%d][%d]:%d Prises2:%d\n",tour,i+1,j-1,cdv[i+2][j-2],*(prises+3));
+        }}
+}
+        if(i<LIGNES-2 && j<COLONNES-2){
+        if(cdv[i+1][j+1] == PION_NOIR || cdv[i+1][j+1] == DAME_NOIRE){ // diagonale bas droite       
+            if(cdv[i+2][j+2] == VIDE){ *(prises+3) = 1;
+            printf("BD tour:%d [%d][%d]:%d Prises3:%d\n",tour,i+1+1,j+1+1,cdv[i+1][j+1],*(prises+3));
+}}
+        }
+
+    }}
+    else{ // tour du joueur noir
+          if(cdv[i][j]==PION_NOIR){
+         if(i>1 && j>1 ){
+        if(cdv[i-1][j-1] == PION_BLANC || cdv[i-1][j-1] == DAME_BLANCHE){ // diagonale haut gauche
+            if(cdv[i-2][j-2] == VIDE) *prises = 1;
+                printf("HG tour:%d de %d %d a  [%d][%d]:%d Prises1:%d\n",tour,i,j,i-2,j-2,cdv[i-2][j-2],*(prises));
+        }
+}
+    if(i>1 && j<COLONNES-2){
+        if(cdv[i-1][j+1] == PION_BLANC || cdv[i-1][j+1] == DAME_BLANCHE){ // diagonale haut droite
+            if(cdv[i-2][j+2] == VIDE) *(prises+1) = 1;
+               printf("HD tour:%d de %d,%d a [%d][%d]:%d Prises2:%d\n",tour,i,j,i-2,j+2,cdv[i-2][j+2],*(prises+1));
+        }}
+
+        if(i<LIGNES-2 && j>1 ){
+        if(cdv[i+1][j-1] == PION_BLANC || cdv[i+1][j-1] == DAME_BLANCHE){ // diagonale bas gauche
+            if(cdv[i+2][j-2] == VIDE) *(prises+2) = 1;
+              printf("BG tour:%d Prises2:%d\n",tour,*(prises+2));
+        }}
+        if(i<LIGNES-2 && j<COLONNES-2){
+        if(cdv[i+1][j+1] == PION_BLANC || cdv[i+1][j+1] == DAME_BLANCHE){ // diagonale bas droite
+            if(cdv[i+2][j+2] == VIDE) *(prises+3) = 1;
+              printf("BD tour:%d de %d,%d a [%d][%d]:%d Prises2:%d\n",tour,i,j,i+2,j+2,cdv[i+2][j+2],*(prises+3));
+        }
+}
+}
+    }
+
+
+    return prises;
+}

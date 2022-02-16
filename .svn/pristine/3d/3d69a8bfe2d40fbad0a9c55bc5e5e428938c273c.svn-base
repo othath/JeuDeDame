@@ -1,0 +1,14 @@
+#ifndef VOISINAGE_H_
+#define VOISINAGE_H_
+
+#include <stdlib.h>
+#include <stdio.h>
+
+void voisinage(int i, int j, PDamier plateau, PDamier nb_pions_ordinateurs, Pion p);
+
+// structure pion
+
+typedef struct Pion{
+	char position[2];
+	char voisins[4];
+	}Pion;

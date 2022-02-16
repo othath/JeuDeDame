@@ -1,0 +1,51 @@
+#ifndef JOUEUR_H_
+#define JOUEUR_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_INPUT 100
+typedef struct joueur{
+      char nom[MAX_INPUT];
+      int nb_victoire;
+}joueur;
+
+void setName(joueur*,char[]);
+char* getName(joueur*);
+
+/*void initjoueur()
+{
+joueur1 = malloc(sizeof(char));
+printf("Nom du joueur 1 (Joueur blanc) :");
+scanf("%s", joueur1);
+
+joueur2 = malloc(sizeof(char));
+printf("Nom du joueur 2 (Joueur noir) :");
+scanf("%s", joueur2);
+}
+void joueur(){
+    char answer;
+    printf("\voulez-vous jouer contre une IA? taper Y or N: \n", answer);
+    scanf("%c", &answer);
+    if (answer == 'Y'){
+        printf("Vous allez affronter une IA");
+        scanf("%c", &answer);
+                printf("Voulez-vous jouer les blancs ou les noirs? Taper B or N");
+        scanf("%c", &answer);
+            if (answer == 'B'){
+                    printf("Vous allez jouer les blancs\n");
+                } else {
+                    printf("Vous allez jouer les noirs\n");
+                }
+
+    } else {
+    printf("Vous allez jouer contre une personne \n");
+    initjoueur();
+    }
+
+    return 0;
+}
+*/
+
+  
+#endif

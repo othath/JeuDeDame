@@ -1,0 +1,40 @@
+#ifndef GRILLE_H_
+#define GRILLE_H_
+
+/* bibliotheques existantes */
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "const.h"
+
+/* structure(s) */
+struct Damier{
+    int nb_blancs; // nombre de pions blancs
+    int nb_noirs; // nombre de pions noirs
+    int nb_dblanc; // nombre de dames blanches
+    int nb_dnoir; // nombre de dames noires
+    int plateau[LIGNES][COLONNES];
+};
+
+typedef struct Damier* PDamier;
+
+struct ListeDamier{
+    PDamier damiers[MAX_DAMIER];
+    int tete,queue;
+    int n;
+    
+};
+
+typedef struct ListeDamier* PListeDamier;
+
+/* entêtes */
+PDamier new_damier();
+void init_damier(PDamier d);
+void afficher_damier(PDamier d);
+void update_damier(PDamier d);
+PListeDamier init_listeDamier();
+PListeDamier inserer(PDamier,PListeDamier);
+PDamier copieDamier(PDamier d);
+
+
+#endif

@@ -1,0 +1,15 @@
+#include "grille.h"
+#include "deplacement.h"
+
+int main(int argc, char* argv[]){
+    /* création + initialisation du damier */
+    PDamier d=new_damier();
+    init_damier(d);
+    /* affichage du damier */
+    afficher_damier(d);
+    int code[4]={7,1,6,2};
+    if (mv_normal(code,d)>=0){
+        afficher_damier(d);
+    }
+    return 0;
+}

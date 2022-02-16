@@ -1,0 +1,42 @@
+#include "constantes.h"
+#include "voisinage.c"
+
+//Il faut déclarer une fonction pour les pions que l'ordinateur aura au debut d'une partie donc PION_ORDINATEUR==PION_BLANC ou PION_ORDINATEUR==PION_NOIR. Pareil pour les dame
+
+
+//On part du principe que les pions ordinaterus seront blancs donc de valeur 1
+
+
+void voisinage(int i, int j, PDamier plateau, PDamier nb_pions_ordinateurs, Pion p){
+	int e=0;
+	for (i ;i<=2; i+=2){
+		for (j; j<=2; j+=2){
+			if (plateau->[i][j]==1){
+				p->voisins[e]=1 
+				e++;
+				}
+			if (plateau->[i][j]==10){
+				p->voisins[e]=10 
+				e++;
+				}
+			if (plateau->[i][j]==2) { 
+				p->voisins[e]=2;
+				e++;
+			}
+			if (plateau->[i][j]==20){
+				p->voisins[e]=20;
+				e++;
+			}
+			else { 
+				p->voisins[e]=0;
+				e++;
+			}
+						
+		}
+	}
+
+}		
+	
+
+
+				

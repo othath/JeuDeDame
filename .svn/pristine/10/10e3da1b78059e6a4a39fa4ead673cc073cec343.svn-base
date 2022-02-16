@@ -1,0 +1,65 @@
+#include "damierdraw.h"
+#include <math.h> 
+#include <gtk/gtk.h> 
+
+int main(int argc, char **argv){
+ 
+    /* Widget declaration */ 
+    GtkWidget *window; 
+    GtkWidget *vBox; 
+    GtkWidget *button; 
+    GtkWidget *drawing_area; 
+    button_clicked = FALSE; 
+    /* Initialisation of GTK+ */ 
+    gtk_init(&argc, &argv); 
+     
+    /* Creation of main window */ 
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL); 
+    /* Center window on screen */ 
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER); 
+    /* Default window size */ 
+    gtk_window_set_default_size(GTK_WINDOW(window), 600, 600); 
+
+    gtk_window_set_default_size(GTK_WINDOW(window), 320, 200); 
+
+    gtk_window_set_default_size(GTK_WINDOW(window), 700, 700); 
+
+    /* Set window title */ 
+    gtk_window_set_title(GTK_WINDOW(window), "Dessin");
+    /* Creation of a vertical box */ 
+    vBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10); 
+    /* Insertion of the box in the window */ 
+    gtk_container_add(GTK_CONTAINER(window), vBox); 
+     
+    /* Creation of the drawing area */ 
+    drawing_area = gtk_drawing_area_new(); 
+    /* Set a minimum size */ 
+    gtk_widget_set_size_request(drawing_area, 500, 500); 
+    /* Insertion of the drawing area in the box */ 
+    gtk_box_pack_start(GTK_BOX(vBox), drawing_area, TRUE, TRUE, 10); 
+
+
+GtkWidget* gtk_entry_new(void); 
+GtkWidget* gtk_entry_new_with_max_length(gint max);
+
+     
+    /* Creation of a button */ 
+    button = gtk_button_new_with_label("Lancer la partie"); 
+    /* Connection of signal named "clicked" */ 
+    g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(button_cb), drawing_area); 
+    /* Insertion of the button in the box */ 
+    gtk_box_pack_start(GTK_BOX(vBox), button, FALSE, FALSE, 0); 
+     
+    /* Signals used to draw the content of the widget */ 
+    g_signal_connect(drawing_area, "draw", G_CALLBACK(draw_cb), drawing_area); 
+     
+    /* Connection of signal named "destroy" */ 
+    g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(on_destroy), NULL); 
+     
+    /* Make window and all its content visible */ 
+    gtk_widget_show_all(window); 
+    /* Start main event loop */ 
+    gtk_main(); 
+     
+    return EXIT_SUCCESS; 
+}

@@ -1,0 +1,8 @@
+#include "dame.h"
+
+int main(){
+    initialisation();
+    remplissage();
+    affichage();
+    return 0;
+}

@@ -1,0 +1,9 @@
+#ifndef INPUT_H_
+#define INPUT_H_
+
+/* entêtes */
+int estLettre(int* i, char input[]);
+int estNombre(int* i, char input[]);
+int checkInput(char input[]);
+
+#endif

@@ -1,0 +1,164 @@
+#include "rafle.h"
+/*
+int** (*verif_prise_voisin(PDamier plateau, int t, int position[4]))[3]{
+	int y1 = position[0];
+	int x1 = position[1];
+	int* r = 0; 
+	int** voisin;
+	*voisin = (int*)malloc(sizeof(int)*4);
+	**voisin = (int**)malloc(sizeof(int)*3);
+	if(t == 0){
+		for(int i = -1; i<=1; i+=2){
+			for(int j = -1; j<=1; i+=2){
+				if(plateau->plateau[x1+i][y1+i] == DAME_NOIRE || plateau->plateau[x1+i][y1+i] == PION_NOIR && plateau->plateau[position[1]=2*i][position[0]+2*j] == VIDE){
+					voisin[*r][0] = x1 + i*2;
+					voisin[*r][1] = y1 + i*2;
+					voisin[*r][2] = *r;
+					*r = *r +1;
+				}
+				else{
+					voisin[*r][0] = 0;
+					voisin[*r][1] = 0;
+					voisin[*r][2] = *r;
+					*r = *r + 1;
+				}
+				return voisin;
+			}
+		}
+	}
+	if(t == 1){
+		for(int i = -1; i<=1; i+=2){
+			for(int j = -1; j<=1; i+=2){
+				if(plateau->plateau[x1+i][y1+i] == DAME_BLANCHE || plateau->plateau[x1+i][y1+i] == PION_BLANC && plateau->plateau[position[1]=2*i][position[0]+2*j] == VIDE){
+					voisin[*r][0] = x1 + i*2;
+					voisin[*r][1] = y1 + i*2;
+					voisin[*r][2] = *r;
+					*r = *r +1;
+				}
+				else{
+					voisin[*r][0] = 0;
+					voisin[*r][1] = 0;
+					voisin[*r][2] = *r;
+					*r = *r + 1;
+				}
+				return voisin;
+			}	
+		}
+	}
+}
+
+int rafle(PDamier plateau, int t, int position[4], int e){
+	int x1 = position[0];
+	int y1 = position[1];
+	if(t == 0){					//vérif du tour
+		int** prise_possible = (int**)verif_prise_voisin(plateau, t, position);	//on récupère le tableau des voisins
+		for(int i = 0; i<=3; i++){						
+			while(prise_possible[i][0] != 0 && prise_possible[i][1] != 0){	//si les coordonnées des points sont différentes de 0
+				e = e + 1;				//on ajoute 1 pour connaitre la longueur de la rafle
+				x1 = prise_possible[i][1];
+				y1 = prise_possible[i][0];
+				position[0] = x1;
+				position[1] = y1;
+				rafle(plateau, t, position, e);		//on fait appel a la fonction rafle
+			}
+			return e;
+		}
+	}
+	if(t == 1){
+		int** prise_possible = (int**)verif_prise_voisin(plateau, t, position);
+			for(int i = 0; i<=3; i++){
+				while(prise_possible[i][0] != 0 && prise_possible[i][1] != 0){
+					e = e + 1;
+					x1 = prise_possible[i][1];
+					y1 = prise_possible[i][0];
+					position[0] = x1;
+					position[1] = y1;
+					rafle(plateau, t, position, e);
+				}
+				return e;
+			}
+	}
+	else{
+		return -1;
+	}
+	return e;
+*/
+
+cel_t *new_cel(int x, int y){
+	/* constructeur de cellule */
+	cel_t *c = (cel_t*)malloc(sizeof(cel_t));
+	c->x = x;
+	c->y = y;
+	c->svt = NULL;
+	return c;
+}
+
+liste_t *liste_init(){
+	/* constructeur d'une liste avec tête et queue et fictives */
+	liste_t *l = (liste_t*)malloc(sizeof(liste_t));
+	l->tete = new_cel(NULL,NULL);
+	l->queue = new_cel(NULL,NULL);
+	l->tete->svt = l->queue;
+	l->longueur = 0;
+	return l;
+}
+
+void cel_print(cel_t *c){
+	/* affiche le contenu d'une cellule */
+	printf("<Adresse> %p\n",c);
+	printf("x = %i\ny = %i\n",c->x,c->y);
+	printf("\n");
+}
+
+void liste_print(liste_t *l){
+	/* affiche une liste chaînée */
+	cel_t *cel;
+	for(cel=l->tete; cel!=l->queue; cel=cel->svt){
+			cel_print(cel);
+	}
+}
+
+void liste_insere(liste_t *l, cel_t *c){
+	/* insertion de la cellule cel_t juste après la tête.
+	 * On insère à cette position pour optimiser la recherche,
+	 * dans rafle, on regarde surtout si les cases autout n'ont pas déja été visitées,
+	 * donc  c'est plus intéréssant d'insérer au début de liste pour éviter de devoir la parcourir entièrement chaque fois.
+	 */
+	c->svt = l->tete->svt;
+	l->tete->svt = c;
+}
+
+int liste_trouve(liste_t *l, int x, int y){
+	/* renvoie 0 si on trouve le couple (x,y) dans une cellule de la liste, -1 sinon. */
+	int trouve = -1;
+	cel_t *cel;
+	for(cel=l->tete; cel!=l->queue; cel=cel->svt){
+		if(cel->x == x && cel->y == y){ // on a trouvé
+			trouve = 0;
+		}
+	}
+	return trouve;
+}
+
+int rafle(int position[2], PDamier plateau, int t){
+	int x1 = position[0];
+	int y1 = position[1];
+	int rafle_max = 0;
+	if(t == 0){
+		for(int i =  -1; i<=1; i+=2){
+			for(int j = -1; j<=1; j+=2){
+				if((plateau->plateau[x1+i][y1+j] == DAME_NOIRE && plateau->plateau[x1+i+i][y1+j+j] == VIDE) ||  (plateau->plateau[x1+i][y1+j] == PION_NOIR && plateau->plateau[x1+i+i][y1+j+j] == VIDE)){
+					position[0] = x1+i+i;
+					position[1] = y1+j+j;
+					int r = rafle(position, plateau, t);
+					if(rafle_max < r){
+						rafle_max = r;
+					}
+				}
+				printf("%i", rafle_max);
+				return rafle_max;
+			}
+		}
+	}
+	return -1;
+}

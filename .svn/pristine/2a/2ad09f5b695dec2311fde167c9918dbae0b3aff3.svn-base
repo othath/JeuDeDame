@@ -1,0 +1,101 @@
+#ifndef EVALUATION_H_
+#define EVALUATION_H_
+
+#include "deplacement.h"
+
+//Definition des valeurs pour chaque situation.
+
+#define DEFAITE -4
+#define EGALITE -3
+#define PRISE_ADVERSE -2
+#define DAME_ADVERSE -1
+#define POSITION_COTE 1
+#define DAME 2
+#define PRISE 3
+#define VICTOIRE 4
+
+//Definition des coefficients pour chaque situation
+
+#define COEFF_DEFAITE 
+#define COEFF_EGALITE
+#define COEFF_PRISE_ADVERSE
+#define COEFF_DAME_ADVERSE 
+#define COEFF_POSITION_COTE
+#define COEFF_DAME
+#define COEFF_PRISE
+#define COEFF_VICTOIRE
+
+//Definition des valeurs des cases du damier
+
+#define DAMIER[0][1] 80
+#define DAMIER[0][3] 100
+#define DAMIER[0][5] 125
+#define DAMIER[0][7] 100
+#define DAMIER[0][9] 75
+
+#define DAMIER[1][0] 50
+#define DAMIER[1][2] 70
+#define DAMIER[1][4] 70
+#define DAMIER[1][6] 70
+#define DAMIER[1][8] 70
+
+#define DAMIER[2][1] 25
+#define DAMIER[2][3] 20
+#define DAMIER[2][5] 20
+#define DAMIER[2][7] 20
+#define DAMIER[2][9] 40
+
+#define DAMIER[3][0] 25
+#define DAMIER[3][2] 10
+#define DAMIER[3][4] 10
+#define DAMIER[3][6] 10
+#define DAMIER[3][8] 25
+
+#define DAMIER[4][1] 25
+#define DAMIER[4][3] 10
+#define DAMIER[4][5] 10
+#define DAMIER[4][7] 10
+#define DAMIER[4][9] 25
+
+#define DAMIER[5][0] 25
+#define DAMIER[5][2] 10
+#define DAMIER[5][4] 10
+#define DAMIER[5][6] 10
+#define DAMIER[5][8] 25
+
+#define DAMIER[6][1] 25
+#define DAMIER[6][3] 10
+#define DAMIER[6][5] 10
+#define DAMIER[6][7] 10
+#define DAMIER[6][9] 25
+
+#define DAMIER[7][0] 40
+#define DAMIER[7][2] 20
+#define DAMIER[7][4] 20
+#define DAMIER[7][6] 20
+#define DAMIER[7][8] 25
+
+#define DAMIER[8][1] 70
+#define DAMIER[8][3] 70
+#define DAMIER[8][5] 70
+#define DAMIER[8][7] 70
+#define DAMIER[8][9] 50
+
+#define DAMIER[9][0] 75
+#define DAMIER[9][2] 100
+#define DAMIER[9][4] 125
+#define DAMIER[9][6] 100
+#define DAMIER[9][8] 80
+
+int * tabEval(PDamier d);
+int evalNbDame(int coordonne);
+int evalPositionPion(int coordonne, int i, int j);
+
+/*
+int evaluation(Pion p, PDamier plateau, int t, int position[4]);
+int detectionPrise(PDamier plateau, int t, int position[4]);
+int detectionDame(PDamier plateau);
+int detectionCote(PDamier plateau);
+*/
+
+#endif

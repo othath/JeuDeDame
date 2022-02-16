@@ -1,0 +1,212 @@
+#include "damierdraw.h"
+ 
+
+void on_destroy(GtkWidget *widget, gpointer data) 
+{ 
+    /* Halt main event loop */ 
+    gtk_main_quit(); 
+} 
+void button_cb(GtkWidget *widget, gpointer data) 
+{ 
+    GtkWidget *drawing_area = data; 
+    button_clicked = TRUE; 
+    /* Now invalidate the affected region of the drawing area. */ 
+    gtk_widget_queue_draw(drawing_area); 
+} 
+void clear(cairo_t *cr) 
+{ 
+    /* Save current context */ 
+    cairo_save(cr); 
+    cairo_set_source_rgb(cr, 1, 1, 1); 
+    cairo_paint(cr); 
+    /* Restore context */ 
+    cairo_restore(cr); 
+}
+
+void user_function(GtkEntry *entry, gpointer user_data);
+
+
+int tab[10][10]={{0,2,0,2,0,2,0,2,0,2},
+            {2,0,2,0,2,0,2,0,2,0},
+            {0,2,0,2,0,2,0,2,0,2},
+            {2,0,2,0,2,0,2,0,2,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,1,0,1,0,1,0,1,0,1},
+            {1,0,1,0,1,0,1,0,1,0},
+            {0,1,0,1,0,1,0,1,0,1},
+            {1,0,1,0,1,0,1,0,1,0}};
+    
+void draw(cairo_t *cr) 
+{
+    /* Save current context */ 
+    cairo_save(cr); 
+
+    /* Draw a rectangle */ 
+
+int lrect=40; // largeur d'un rectangle
+int hrect=40; // hauteur d'un rectangle
+for (int j=0 ;j<=441; j=j+40){  //on fait une récursion pour la création du nombre de ligne
+        for (int i=0 ;i<450; i=i+40){
+    cairo_rectangle(cr, i, j, 40, 40); 
+        cairo_set_source_rgb(cr, 0, 0, 0); // CECI EST LE QUADRILLAGE DU DAMIER
+                cairo_stroke(cr);
+}
+int f=0;
+for (int k=0;k<10;k++){
+    f=f+40;
+    if (k%2 == 0)
+     for (int i=80 ;i<440; i=i+80){
+     cairo_fill (cr);
+     cairo_rectangle(cr, i, f, 40, 40); 
+    cairo_set_source_rgb(cr, 0.5, 0.2, 0.2); 
+    cairo_fill (cr); 
+
+ cairo_fill (cr);
+} else{    
+ for (int i=40 ;i<440; i=i+80){
+ cairo_fill (cr);
+     cairo_rectangle(cr, i, f, 40, 40); 
+        cairo_set_source_rgb(cr, 0.5, 0.2, 0.2); 
+ cairo_fill (cr);
+
+}
+}}
+int g=0;
+for (int k=0;k<10;k++){
+    g=g+40;
+    if (k%2 == 0)
+     for (int i=40 ;i<440; i=i+80){
+     cairo_fill (cr);
+     cairo_rectangle(cr, i, g, 40, 40); 
+    cairo_set_source_rgb(cr, 0.9, 0.7, 0.7); 
+    cairo_fill (cr); 
+
+ cairo_fill (cr);
+} else{    
+ for (int i=80 ;i<440; i=i+80){
+ cairo_fill (cr);
+     cairo_rectangle(cr, i, g, 40, 40); 
+        cairo_set_source_rgb(cr, 0.9, 0.7, 0.7); 
+ cairo_fill (cr);
+
+}
+}}
+}
+
+int p=0;
+for (int k=0;k<4;k++){
+     p=p+40;
+     if (k%2 == 0)
+        for (int i=80 ;i<440; i=i+80){
+        cairo_arc(cr, i+20, p+20, 12, 0, 2 * M_PI);    //ON REMPLI LES PIONS NOIRS
+        cairo_set_source_rgb(cr, 0, 0, 0); 
+        cairo_fill (cr); 
+    }else{
+        for (int i=40 ;i<440; i=i+80){
+            cairo_arc(cr, i+20, p+20, 12, 0, 2 * M_PI);    //ON REMPLI LES PIONS NOIRS
+            cairo_set_source_rgb(cr, 0, 0, 0); 
+            cairo_fill (cr); 
+        }
+    }
+}
+int q=240;
+for (int k=6;k<10;k++){
+            q=q+40;
+                if (k%2 == 0)
+     for (int i=80 ;i<440; i=i+80){
+
+        cairo_arc(cr, i+20, q+20, 12, 0, 2 * M_PI);    //ON REMPLI LES PIONS BLANCS
+        cairo_set_source_rgb(cr, 1, 1, 1); 
+        cairo_fill (cr); 
+    }else{
+             for (int i=40 ;i<440; i=i+80){
+
+        cairo_arc(cr, i+20, q+20, 12, 0, 2 * M_PI);    //ON REMPLI LES PIONS BLANCS
+        cairo_set_source_rgb(cr, 1, 1, 1); 
+        cairo_fill (cr); 
+        }
+    }
+}
+
+for (int j=0 ;j<=441; j=j+40){  //on fait une récursion pour la création du nombre de ligne
+        for (int i=0 ;i<450; i=i+40){
+    cairo_rectangle(cr, i, j, 40, 40); 
+        cairo_set_source_rgb(cr, 0, 0, 0); // CECI EST LE QUADRILLAGE DU DAMIER SUPPLEMENTAIRE POUR PLUS DE VISIBILIT
+                cairo_stroke(cr);
+}}
+
+    cairo_move_to(cr, 0, 25); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"      0   1   2   3   4   5   6   7   8   9"); 
+
+
+
+    cairo_move_to(cr, 15, 80); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"A"); 
+        cairo_move_to(cr, 15, 120); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"B"); 
+        cairo_move_to(cr, 15, 160); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"C"); 
+        cairo_move_to(cr, 15, 200); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"D"); 
+        cairo_move_to(cr, 15, 240); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"E"); 
+        cairo_move_to(cr, 15, 280); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"F"); 
+        cairo_move_to(cr, 15, 320); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"G"); 
+        cairo_move_to(cr, 15, 360); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"H"); 
+        cairo_move_to(cr, 15, 400); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"I"); 
+        cairo_move_to(cr, 15, 440); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr,"J"); 
+
+
+    cairo_move_to(cr, 150, 600); 
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); 
+
+    cairo_set_font_size(cr,25);
+    cairo_show_text(cr, "Bienvenue sur le  jeu de dame"); 
+     
+    /* Restore context */ 
+    cairo_restore(cr); 
+}
+
+/* Redraw the widget. Note that the ::draw 
+ * signal receives a ready-to-be-used cairo_t that is already 
+ * clipped to only draw the exposed areas of the widget 
+ */ 
+gboolean draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data) 
+{ 
+    GtkWidget *drawing_area = data; 
+    clear(cr); 
+    if (button_clicked) 
+        draw(cr); 
+     
+    return FALSE; 
+} 
+
+ 
